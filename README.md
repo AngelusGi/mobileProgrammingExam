@@ -3,12 +3,12 @@ Exam project "Mobile Apps Programming" - Professor Francesco Mercalo (UniMol - U
 <br/>
 
 ## Team
-[Angelo Gino Varrati] (https://github.com/angelus_gi) & Roberto Lucchetti (@Rejrak)
+Angelo Gino Varrati [@angelus_gi](https://github.com/angelus_gi) and Roberto Lucchetti [@Rejrak](https://github.com/Rejrak)
 <br/>
 
 ## Description
 <br/>
-We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and read song's text using SpotifyAPI-NET and MongoDB.
+We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and read song's text using [SpotifyAPI-NET](https://johnnycrazy.github.io/SpotifyAPI-NET/) and MongoDB.
 
 <br/>
 
@@ -20,4 +20,4 @@ We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and re
 <br/>
 
 ## Features in version 1
-- Download text's song for offline use
+- Download text's song for offline use on SQL Lite
