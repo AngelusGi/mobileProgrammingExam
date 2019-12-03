@@ -11,6 +11,6 @@ We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and re
 - Spotify login
 - Music player
 - Read text's song
-
+#
 #Features in version 1
 - Download text's song for offline use
