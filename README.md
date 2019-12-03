@@ -7,7 +7,6 @@ Angelo Gino Varrati [@angelus_gi](https://github.com/angelus_gi) and Roberto Luc
 <br/>
 
 ## Description
-<br/>
 We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and read song's text using [SpotifyAPI-NET](https://johnnycrazy.github.io/SpotifyAPI-NET/) and MongoDB.
 
 <br/>
