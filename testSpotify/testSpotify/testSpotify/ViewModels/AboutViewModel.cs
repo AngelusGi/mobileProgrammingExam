@@ -13,15 +13,14 @@ namespace testSpotify.ViewModels
         public AboutViewModel()
         {
             Title = "About";
-            TestAuthCommand = new Command(async () => TestAuth());
-        }
-
-        private void TestAuth()
-        {
-           // FARE QUI DENTRO LA PORCODIO DI AUTENTICAZIONE DI MERDA ❤
+            TestAuthCommand = new Command( () =>  TestAuth());
         }
 
         public ICommand TestAuthCommand { get; }
 
+        private async void TestAuth()
+        {
+            
+        }
     }
 }
