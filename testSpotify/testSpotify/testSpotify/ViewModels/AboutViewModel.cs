@@ -2,7 +2,10 @@
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-
+using SpotifyAPI.Web;
+using SpotifyAPI.Web.Auth;
+using SpotifyAPI.Web.Enums;
+using SpotifyAPI.Web.Models;
 namespace testSpotify.ViewModels
 {
     public class AboutViewModel : BaseViewModel
@@ -10,9 +13,15 @@ namespace testSpotify.ViewModels
         public AboutViewModel()
         {
             Title = "About";
-            OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://xamarin.com"));
+            TestAuthCommand = new Command(async () => TestAuth());
         }
 
-        public ICommand OpenWebCommand { get; }
+        private void TestAuth()
+        {
+           // FARE QUI DENTRO LA PORCODIO DI AUTENTICAZIONE DI MERDA ❤
+        }
+
+        public ICommand TestAuthCommand { get; }
+
     }
 }
