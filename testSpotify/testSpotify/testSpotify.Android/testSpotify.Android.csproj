@@ -98,9 +98,9 @@
     <AndroidResource Include="Resources\drawable\xamarin_logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\testSpotify\testSpotify.csproj">
-      <Project>{3D8180A9-23B0-4AC5-BACF-37072732A918}</Project>
-      <Name>testSpotify</Name>
+    <ProjectReference Include="..\testSpotify\TestSpotify.csproj">
+      <Project>{287EC1C5-6478-4B38-ACF9-A1E611E0718A}</Project>
+      <Name>TestSpotify</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

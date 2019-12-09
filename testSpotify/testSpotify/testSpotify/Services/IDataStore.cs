@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace testSpotify.Services
+namespace TestSpotify.Services
 {
     public interface IDataStore<T>
     {

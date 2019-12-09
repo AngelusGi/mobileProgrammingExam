@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using TestSpotify.Models;
 
-using testSpotify.Models;
-
-namespace testSpotify.Views
+namespace TestSpotify.Views
 {
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
