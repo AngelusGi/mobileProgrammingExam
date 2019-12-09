@@ -11,6 +11,9 @@ We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and re
 
 <br/>
 
+## Tools and platform
+- [doxygen](http://www.doxygen.nl/download.html) - Visual Studio Documentation
+
 ## Features in version 1
 - Spotify login
 - Music player
