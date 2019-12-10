@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace TestSpotify.UWP
+namespace testSpotify.UWP
 {
     public sealed partial class MainPage
     {
@@ -21,7 +21,7 @@ namespace TestSpotify.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new TestSpotify.App());
+            LoadApplication(new testSpotify.App());
         }
     }
 }

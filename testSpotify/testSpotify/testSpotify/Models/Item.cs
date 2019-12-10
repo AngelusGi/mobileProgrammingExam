@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestSpotify.Models
+namespace testSpotify.Models
 {
     public class Item
     {

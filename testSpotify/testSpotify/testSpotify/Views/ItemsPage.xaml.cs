@@ -6,24 +6,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using TestSpotify.Models;
-using TestSpotify.Views;
-using TestSpotify.ViewModels;
 
-namespace TestSpotify.Views
+using testSpotify.Models;
+using testSpotify.Views;
+using testSpotify.ViewModels;
+
+namespace testSpotify.Views
 {
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
     public partial class ItemsPage : ContentPage
     {
-        ItemsViewModel _viewModel;
+        ItemsViewModel viewModel;
 
         public ItemsPage()
         {
             InitializeComponent();
 
-            BindingContext = _viewModel = new ItemsViewModel();
+            BindingContext = viewModel = new ItemsViewModel();
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -47,8 +48,8 @@ namespace TestSpotify.Views
         {
             base.OnAppearing();
 
-            if (_viewModel.Items.Count == 0)
-                _viewModel.LoadItemsCommand.Execute(null);
+            if (viewModel.Items.Count == 0)
+                viewModel.LoadItemsCommand.Execute(null);
         }
     }
 }

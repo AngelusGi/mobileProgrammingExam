@@ -1,10 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using TestSpotify.Services;
-using TestSpotify.Views;
+using testSpotify.Services;
+using testSpotify.Views;
 
-namespace TestSpotify
+namespace testSpotify
 {
     public partial class App : Application
     {

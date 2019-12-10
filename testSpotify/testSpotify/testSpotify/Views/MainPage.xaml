@@ -4,8 +4,8 @@
             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             mc:Ignorable="d"
-            xmlns:views="clr-namespace:TestSpotify.Views"
-            x:Class="TestSpotify.Views.MainPage">
+            xmlns:views="clr-namespace:testSpotify.Views"
+            x:Class="testSpotify.Views.MainPage">
 
     <TabbedPage.Children>
         <NavigationPage Title="Browse">

@@ -4,27 +4,28 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using Xamarin.Forms;
-using TestSpotify.Models;
-using TestSpotify.Services;
 
-namespace TestSpotify.ViewModels
+using testSpotify.Models;
+using testSpotify.Services;
+
+namespace testSpotify.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
-        bool _isBusy = false;
+        bool isBusy = false;
         public bool IsBusy
         {
-            get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
+            get { return isBusy; }
+            set { SetProperty(ref isBusy, value); }
         }
 
-        string _title = string.Empty;
+        string title = string.Empty;
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
 
         protected bool SetProperty<T>(ref T backingStore, T value,

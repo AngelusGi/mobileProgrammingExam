@@ -1,7 +1,8 @@
 ﻿using System;
-using TestSpotify.Models;
 
-namespace TestSpotify.ViewModels
+using testSpotify.Models;
+
+namespace testSpotify.ViewModels
 {
     public class ItemDetailViewModel : BaseViewModel
     {

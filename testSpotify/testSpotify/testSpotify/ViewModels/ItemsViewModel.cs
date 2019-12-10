@@ -4,10 +4,11 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-using TestSpotify.Models;
-using TestSpotify.Views;
 
-namespace TestSpotify.ViewModels
+using testSpotify.Models;
+using testSpotify.Views;
+
+namespace testSpotify.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {

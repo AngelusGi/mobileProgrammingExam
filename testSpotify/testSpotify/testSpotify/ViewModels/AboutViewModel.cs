@@ -6,19 +6,17 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
-namespace TestSpotify.ViewModels
+namespace testSpotify.ViewModels
 {
     public class AboutViewModel : BaseViewModel
     {
-        public ICommand TestAuthCommand { get; }
-
-
         public AboutViewModel()
         {
             Title = "About";
-            TestAuthCommand = new Command(() => TestAuth());
+            TestAuthCommand = new Command( () =>  TestAuth());
         }
 
+        public ICommand TestAuthCommand { get; }
 
         private async void TestAuth()
         {
