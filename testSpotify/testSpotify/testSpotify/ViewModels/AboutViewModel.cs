@@ -18,7 +18,7 @@ namespace testSpotify.ViewModels
 
         public ICommand TestAuthCommand { get; }
 
-        private async void TestAuth()
+        private void TestAuth()
         {
             
         }

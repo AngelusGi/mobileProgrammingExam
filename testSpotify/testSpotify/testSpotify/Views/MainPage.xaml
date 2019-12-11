@@ -1,34 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<xf:BottomBarPage
+            xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:xf="clr-namespace:BottomBar.XamarinForms;assembly=BottomBar.XamarinForms"
             mc:Ignorable="d"
             xmlns:views="clr-namespace:testSpotify.Views"
             x:Class="testSpotify.Views.MainPage">
-
-    <TabbedPage.Children>
-        <NavigationPage Title="Browse">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_feed.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
-            <x:Arguments>
-                <views:ItemsPage />
-            </x:Arguments>
-        </NavigationPage>
+    <xf:BottomBarPage.Children>
         
-        <NavigationPage Title="About">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_about.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
+        <views:ItemsPage Title="Home" 
+                     Icon="ic_home.png"
+                     xf:BottomBarPageExtensions.TabColor="Black" 
+                     />
+
+        <views:AboutPage Title="Cerca" 
+                     Icon="ic_search.png"
+                     xf:BottomBarPageExtensions.TabColor="Gray" 
+                     />
+
+        <ContentPage Title="La tua libreria" 
+                 Icon="ic_library.png"
+                 xf:BottomBarPageExtensions.TabColor="Black" 
+                 />
+
+        <ContentPage Title="Lyrics" 
+                 Icon="ic_lyrics.png"
+                 xf:BottomBarPageExtensions.TabColor="Gray" 
+                 xf:BottomBarPageExtensions.BadgeColor="Red"
+                 xf:BottomBarPageExtensions.BadgeCount="1"
+                 />
+        
+    </xf:BottomBarPage.Children>
+   
+
+
+    <!--<TabbedPage.Children>
+        <NavigationPage Title="Browse">
             <x:Arguments>
-                <views:AboutPage />
+                <views:ItemsPage Title="Home"/>
             </x:Arguments>
         </NavigationPage>
-    </TabbedPage.Children>
-    
-</TabbedPage>
+
+        <NavigationPage Title="About">
+            <x:Arguments>
+                <views:AboutPage Title="Cerca"/>
+            </x:Arguments>
+        </NavigationPage>
+
+        <NavigationPage Title="Search">
+            <x:Arguments>
+                <ContentPage Title="La tua libreria"/>
+            </x:Arguments>
+        </NavigationPage>
+
+        <NavigationPage Title="Lyrics">
+            <x:Arguments>
+                <ContentPage Title="Lyrics"/>
+            </x:Arguments>
+        </NavigationPage>
+    </TabbedPage.Children>-->
+
+
+
+</xf:BottomBarPage>
+
