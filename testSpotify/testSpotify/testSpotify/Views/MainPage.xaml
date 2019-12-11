@@ -8,30 +8,53 @@
             mc:Ignorable="d"
             xmlns:views="clr-namespace:testSpotify.Views"
             x:Class="testSpotify.Views.MainPage">
+    
     <xf:BottomBarPage.Children>
         
-        <views:ItemsPage Title="Home" 
+        <!--<views:ItemsPage Title="Home" 
                      Icon="ic_home.png"
                      xf:BottomBarPageExtensions.TabColor="Black" 
-                     />
+                     />-->
+        <NavigationPage Title="Home" Icon="ic_home.png" BarBackgroundColor="Black">
+            <x:Arguments >
+                <views:ItemsPage Title="Home"/>
+            </x:Arguments>
+        </NavigationPage>
 
-        <views:AboutPage Title="Cerca" 
+        <NavigationPage Title="Cerca" Icon="ic_search.png" BarBackgroundColor="Black">
+            <x:Arguments >
+                <views:AboutPage Title="Cerca" 
                      Icon="ic_search.png"
-                     xf:BottomBarPageExtensions.TabColor="Gray" 
+                     xf:BottomBarPageExtensions.TabColor="Black" 
                      />
+            </x:Arguments>
+        </NavigationPage>
 
-        <ContentPage Title="La tua libreria" 
+        <NavigationPage Title="libreria" Icon="ic_library.png" BarBackgroundColor="Black">
+            <x:Arguments >
+                <ContentPage Title="La tua libreria" 
                  Icon="ic_library.png"
                  xf:BottomBarPageExtensions.TabColor="Black" 
                  />
+            </x:Arguments>
+        </NavigationPage>
 
-        <ContentPage Title="Lyrics" 
+        <NavigationPage Title="libreria" Icon="ic_lyrics.png" BarBackgroundColor="Black">
+            <x:Arguments >
+                <ContentPage Title="Lyrics" 
                  Icon="ic_lyrics.png"
                  xf:BottomBarPageExtensions.TabColor="Gray" 
-                 xf:BottomBarPageExtensions.BadgeColor="Red"
-                 xf:BottomBarPageExtensions.BadgeCount="1"
                  />
+            </x:Arguments>
+        </NavigationPage>
+
         
+
+        
+
+
+
+
     </xf:BottomBarPage.Children>
    
 
