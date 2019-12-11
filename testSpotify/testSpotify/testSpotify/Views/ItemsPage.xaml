@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             BackgroundColor="#111"
              x:Class="testSpotify.Views.ItemsPage"
              Title="{Binding Title}"
              x:Name="BrowseItemsPage">
@@ -40,12 +41,14 @@
                                 d:Text="{Binding .}"
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
+                                FontSize="16"
+                                TextColor="PapayaWhip"/>
                             <Label Text="{Binding Description}" 
                                 d:Text="Item description"
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemDetailTextStyle}"
-                                FontSize="13" />
+                                FontSize="13"
+                                TextColor="PapayaWhip"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

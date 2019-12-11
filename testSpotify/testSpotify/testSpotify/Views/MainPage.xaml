@@ -8,84 +8,47 @@
             mc:Ignorable="d"
             xmlns:views="clr-namespace:testSpotify.Views"
             x:Class="testSpotify.Views.MainPage">
-    
+
     <xf:BottomBarPage.Children>
-        
-        <!--<views:ItemsPage Title="Home" 
-                     Icon="ic_home.png"
-                     xf:BottomBarPageExtensions.TabColor="Black" 
-                     />-->
-        <NavigationPage Title="Home" Icon="ic_home.png" BarBackgroundColor="Black">
+
+        <NavigationPage Title="Home" Icon="ic_home.png">
             <x:Arguments >
-                <views:ItemsPage Title="Home"/>
+                <views:ItemsPage Title="Home" 
+                                 NavigationPage.HasNavigationBar="False" />
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage Title="Cerca" Icon="ic_search.png" BarBackgroundColor="Black">
+        <NavigationPage Title="Cerca" Icon="ic_search.png" NavigationPage.HasNavigationBar="False">
             <x:Arguments >
                 <views:AboutPage Title="Cerca" 
-                     Icon="ic_search.png"
-                     xf:BottomBarPageExtensions.TabColor="Black" 
+                                 Icon="ic_search.png"
+                                 xf:BottomBarPageExtensions.TabColor="Black" 
+                                 NavigationPage.HasNavigationBar="False"
                      />
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage Title="libreria" Icon="ic_library.png" BarBackgroundColor="Black">
+        <NavigationPage Title="libreria" Icon="ic_library.png">
             <x:Arguments >
                 <ContentPage Title="La tua libreria" 
-                 Icon="ic_library.png"
-                 xf:BottomBarPageExtensions.TabColor="Black" 
+                             Icon="ic_library.png"
+                             xf:BottomBarPageExtensions.TabColor="Black" 
+                             NavigationPage.HasNavigationBar="False"
                  />
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage Title="libreria" Icon="ic_lyrics.png" BarBackgroundColor="Black">
+        <NavigationPage Title="Lyrics" Icon="ic_lyrics.png">
             <x:Arguments >
                 <ContentPage Title="Lyrics" 
-                 Icon="ic_lyrics.png"
-                 xf:BottomBarPageExtensions.TabColor="Gray" 
+                             Icon="ic_lyrics.png"
+                             xf:BottomBarPageExtensions.TabColor="Gray" 
+                             NavigationPage.HasNavigationBar="False"
                  />
             </x:Arguments>
         </NavigationPage>
 
-        
-
-        
-
-
-
-
     </xf:BottomBarPage.Children>
-   
-
-
-    <!--<TabbedPage.Children>
-        <NavigationPage Title="Browse">
-            <x:Arguments>
-                <views:ItemsPage Title="Home"/>
-            </x:Arguments>
-        </NavigationPage>
-
-        <NavigationPage Title="About">
-            <x:Arguments>
-                <views:AboutPage Title="Cerca"/>
-            </x:Arguments>
-        </NavigationPage>
-
-        <NavigationPage Title="Search">
-            <x:Arguments>
-                <ContentPage Title="La tua libreria"/>
-            </x:Arguments>
-        </NavigationPage>
-
-        <NavigationPage Title="Lyrics">
-            <x:Arguments>
-                <ContentPage Title="Lyrics"/>
-            </x:Arguments>
-        </NavigationPage>
-    </TabbedPage.Children>-->
-
-
 
 </xf:BottomBarPage>
 
