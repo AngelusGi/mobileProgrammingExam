@@ -77,6 +77,7 @@ namespace testSpotify.ViewModels
                // _ = MessageBox.Show("Errore : " + e.Message);
             }
         }
+
         private string TrovaArtista()
         {
             IMongoCollection<ArtistModel> collection = mongo.Db.GetCollection<ArtistModel>("Artist"); 
@@ -86,6 +87,7 @@ namespace testSpotify.ViewModels
             {
                 artistcollection = mongo.LoadRecordByName<ArtistModel>("Artist", "ArtistName", ArtistName);
                 
+                //Se l'artista è presente
                 if (artistcollection != null)
                 {
                     string lyrics = TrovaAlbum(artistcollection, collection);
@@ -93,13 +95,12 @@ namespace testSpotify.ViewModels
                     {
                         return lyrics;
                     }
-                }
+                } //Se l'artista non è presente
                 else
                 {
                     //InserisciArtista();
-                    //Achtung();
                 }
-            }
+            } 
             catch (InvalidOperationException e)
             {
                 //InserisciArtista();
@@ -108,12 +109,13 @@ namespace testSpotify.ViewModels
             return null;
         }
 
-        [Obsolete]
+        
         private string TrovaAlbum(ArtistModel artistcollection, IMongoCollection<ArtistModel> collection)
         {
+            //Costruzione a manella del filtro di ricerca del Nome dell'artista
             FilterDefinition<ArtistModel> ArtistFilter = Builders<ArtistModel>.Filter.Eq("ArtistName", this.ArtistName);
             
-
+            //Se l'artista è presente ma l'album no, costruzione a manella del json per l'update dell'album
             var UpdateAlbum = Builders<ArtistModel>.Update.Push("Albums",
                 new AlbumModel
                 {
@@ -130,8 +132,10 @@ namespace testSpotify.ViewModels
             int AlbumPos = -1;
             int i = 0;
 
+            //Ricercad dell'album
             while (i < artistcollection.Albums.Count)
             {
+                //Se l'album è stato trovato, mi salvo la sua posizione
                 if (artistcollection.Albums[i].AlbumName == this.AlbumName)
                 {
                     //Album Trovato
@@ -142,12 +146,15 @@ namespace testSpotify.ViewModels
             }
             if (AlbumPos == -1)
             {
+                //Faccio la richiesta di update dell'artista con l'album aggiornato
                 UpdateResult updateResult = collection.UpdateOne(ArtistFilter, UpdateAlbum, new UpdateOptions { IsUpsert = true });
                 //Album Inserito
             }
             else
             {
+                //Se l'album è stato trovato, vado a cercarmi la traccia
                 string lyrics = TrovaTraccia(artistcollection, collection, ArtistFilter, AlbumPos);
+                //Se ho trovato il testo della canzone, lo restituisco
                 if (lyrics != null)
                 {
                     return lyrics;
@@ -156,7 +163,7 @@ namespace testSpotify.ViewModels
             return null;
         }
 
-        [Obsolete]
+        
         private string TrovaTraccia(ArtistModel artistcollection, IMongoCollection<ArtistModel> collection, FilterDefinition<ArtistModel> ArtistFilter, int albumPos)
         {
             int TrackPos = -1;
@@ -172,6 +179,7 @@ namespace testSpotify.ViewModels
                 }
                 i++;
             }
+            //Se la traccia non è stata trovata
             if (TrackPos == -1)
             {
                 artistcollection.Albums[albumPos].Tracks.Add(new TrackModel { TrackName = this.TrackName, Lyrics = null });

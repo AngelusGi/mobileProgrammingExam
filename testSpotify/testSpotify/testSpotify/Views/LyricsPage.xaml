@@ -11,7 +11,7 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
             <Label Text="{Binding ArtistName, FallbackValue=ArtistName}"/>
             <Label Text="{Binding AlbumName, FallbackValue=AlbumName}"/>
             <Label Text="{Binding TrackName, FallbackValue=TrackName}"/>
