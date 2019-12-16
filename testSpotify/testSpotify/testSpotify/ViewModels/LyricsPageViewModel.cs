@@ -69,12 +69,10 @@ namespace testSpotify.ViewModels
                         }
                     }
                 });
-                //MessageBox.Show("Artista Inserito");
-                //Achtung();
             }
             catch (MongoException e)
             {
-               // _ = MessageBox.Show("Errore : " + e.Message);
+                //Gestire l'errore
             }
         }
 

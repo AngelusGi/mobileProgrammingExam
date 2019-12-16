@@ -18,7 +18,7 @@ namespace testSpotify.Services
 
         public MongoDBClass(string database)
         {
-            Client = new MongoClient(@"mongodb://10.64.199.115:27017");
+            Client = new MongoClient(@"mongodb://192.168.1.212:27017");
             Db = Client.GetDatabase(database);
         }
 
