@@ -7,7 +7,8 @@
             xmlns:xf="clr-namespace:BottomBar.XamarinForms;assembly=BottomBar.XamarinForms"
             mc:Ignorable="d"
             xmlns:views="clr-namespace:testSpotify.Views"
-            x:Class="testSpotify.Views.MainPage">
+            xmlns:views1="clr-namespace:testSpotify.Views.LyricsPage"
+    x:Class="testSpotify.Views.MainPage">
 
     <xf:BottomBarPage.Children>
 
@@ -40,11 +41,11 @@
 
         <NavigationPage Title="Lyrics" Icon="ic_lyrics.png">
             <x:Arguments >
-                <ContentPage Title="Lyrics" 
-                             Icon="ic_lyrics.png"
-                             xf:BottomBarPageExtensions.TabColor="Gray" 
-                             NavigationPage.HasNavigationBar="False"
-                 />
+                <views:LyricsPage Title="Lyrics" 
+                                 Icon="ic_lyrics.png"
+                                 xf:BottomBarPageExtensions.TabColor="Black" 
+                                 NavigationPage.HasNavigationBar="False"
+                     />
             </x:Arguments>
         </NavigationPage>
 
