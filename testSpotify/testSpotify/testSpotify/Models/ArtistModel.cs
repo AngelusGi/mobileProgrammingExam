@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace testSpotify.Models
 {
-        public class ArtistModel
-        {
-            public ObjectId Id { get; set; }
-            public string ArtistName { get; set; }
-            public List<AlbumModel> Albums { get; set; }
-        }
+    public class ArtistModel
+    {
+        public ObjectId Id { get; set; }
+        public string ArtistName { get; set; }
+        public List<AlbumModel> Albums { get; set; }
+    }
 }
