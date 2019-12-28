@@ -147,15 +147,30 @@ namespace testSpotify.Services
             }
             return null;
         }
-        private string UpdateTrack(ArtistModel artistcollection, IMongoCollection<ArtistModel> collection, FilterDefinition<ArtistModel> ArtistFilter, int albumPos,string trackName)
+        private string UpdateTrack(ArtistModel artistFound, IMongoCollection<ArtistModel> collection, FilterDefinition<ArtistModel> ArtistFilter, int albumPos,string trackName)
         {
             int TrackPos = -1;
             int i = 0;
 
+            var UpdateAlbum = Builders<ArtistModel>.Update.Push("Albums",
+                new AlbumModel
+                {
+                    AlbumName = artistFound.Albums[albumPos].AlbumName,
+                    Tracks = new List<TrackModel>
+                    {
+                        new TrackModel
+                        {
+                            TrackName = trackName,
+                            Lyrics = null
+                        }
+                    }
+                });
+            
+
             //cerco tra le tracce dell'album se la canzone che sto cercando è presente
-            while (i < artistcollection.Albums[albumPos].Tracks.Count)
+            while (i < artistFound.Albums[albumPos].Tracks.Count)
             {
-                if (artistcollection.Albums[albumPos].Tracks[i].TrackName == trackName)
+                if (artistFound.Albums[albumPos].Tracks[i].TrackName == trackName)
                 {
                     //Traccia Trovata, mi salvo la sua posizione 
                     TrackPos = i;
@@ -166,23 +181,26 @@ namespace testSpotify.Services
             //Se la traccia non è stata trovata
             if (TrackPos == -1)
             {
-                //Aggiungo la nuova traccia tra quelle dell'album di questo artista
-                artistcollection.Albums[albumPos].Tracks.Add(new TrackModel { TrackName = trackName, Lyrics = null });
-                //Ed aggiorno il json
-                /*ReplaceOneResult ReplaceResult*/
-                _ = collection.ReplaceOne(ArtistFilter, artistcollection, new ReplaceOptions { IsUpsert = true });
+                //OLD
+                //artistFound.Albums[albumPos].Tracks.Add(new TrackModel { TrackName = trackName, Lyrics = null });
+                //_ = collection.ReplaceOne(ArtistFilter, artistFound, new ReplaceOptions { IsUpsert = true });
+
+
+                //NEW
+                //Aggiorno l'album con la nuova traccia
+                _ = collection.UpdateOne(ArtistFilter, UpdateAlbum, new UpdateOptions { IsUpsert = true });
                 //Traccia aggiunta
             }
             else
             {
-                if (artistcollection.Albums[albumPos].Tracks[TrackPos].Lyrics == null)
+                if (artistFound.Albums[albumPos].Tracks[TrackPos].Lyrics == null)
                 {
                     //Se la traccia è stata trovata ma non ho il testo della canzone, dovrò in qualche modo aggiungere il testo
                 }
                 else
                 {
                     //Se il testo è presente, lo ritorno 
-                    return artistcollection.Albums[albumPos].Tracks[TrackPos].Lyrics;
+                    return artistFound.Albums[albumPos].Tracks[TrackPos].Lyrics;
                 }
             }
             return null;
