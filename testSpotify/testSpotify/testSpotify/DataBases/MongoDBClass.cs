@@ -10,7 +10,7 @@ using Plugin.Toast;
 
 namespace testSpotify.Services
 {
-    class MongoDBClass
+    public class MongoDBClass
     {
 
         public IMongoDatabase Db { get; set; }
@@ -18,9 +18,9 @@ namespace testSpotify.Services
 
 
 
-        public MongoDBClass(string database)
+        public MongoDBClass(string database, string mongodbpath)
         {
-            Client = new MongoClient(@"mongodb://10.64.194.4:27017");
+            Client = new MongoClient(mongodbpath);
             Db = Client.GetDatabase(database);
         }
 
@@ -58,53 +58,132 @@ namespace testSpotify.Services
             }
         }
 
-        public void InsertArtist(string artistName, string albumName, string trackName)
+        /// <summary>
+        /// Metodo che mantiene sempre aggiornato il database
+        /// </summary>
+        /// <param name="artistName">Chiave di ricerca</param>
+        /// <returns>Se presente, ritorna il testo della canzone</returns>
+        public string UpdateMongoDBArtist(string artistName, string albumName, string trackName)
         {
+            IMongoCollection<ArtistModel> collection = Db.GetCollection<ArtistModel>("Artist");
+
             try
             {
-                this.InsertRecord("Artist", new ArtistModel()
+                //cerco l'artista nel database di mongo
+                var artistfound = LoadRecordByName<ArtistModel>("Artist", "ArtistName", artistName);
+
+                //Se l'artista è presente
+                if (artistfound != null)
                 {
-                    ArtistName = artistName,
-                    Albums = new List<AlbumModel>()
+                    //cerco nell'album
+                    string lyrics = UpdateAlbum(artistfound, collection, albumName, trackName);
+                    if (lyrics != null)
                     {
-                        new AlbumModel()
+                        return lyrics;
+                    }
+                } //Se l'artista non è presente
+                else
+                {
+                    //InserisciArtista();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                //InserisciArtista();
+                //Gestire Errore
+            }
+            return null;
+        }
+        private string UpdateAlbum(ArtistModel artistFound, IMongoCollection<ArtistModel> collection, string albumName, string trackName)
+        {
+            //Costruzione a manella del filtro di ricerca del Nome dell'artista
+            FilterDefinition<ArtistModel> ArtistFilter = Builders<ArtistModel>.Filter.Eq("ArtistName", artistFound.ArtistName);
+
+            //Se l'artista fosse presente ma l'album no, costruzione a manella del json per l'update dell'album
+            var UpdateAlbum = Builders<ArtistModel>.Update.Push("Albums",
+                new AlbumModel
+                {
+                    AlbumName = albumName,
+                    Tracks = new List<TrackModel>
+                    {
+                        new TrackModel
                         {
-                            AlbumName = albumName,
-                            Tracks = new List<TrackModel>()
-                            {
-                                new TrackModel()
-                                {
-                                    TrackName = trackName
-                                }
-                            }
+                            TrackName = trackName,
+                            Lyrics = null
                         }
                     }
                 });
-            }
-            catch (MongoException)
+            int AlbumPos = -1;
+            int i = 0;
+
+            //Ricerca dell'album
+            while (i < artistFound.Albums.Count)
             {
-                CrossToastPopUp.Current.ShowToastError("Errore durante l'inserimento dell'artista");
+                //Se l'album è stato trovato, mi salvo la sua posizione tra i vari album dell'artista
+                if (artistFound.Albums[i].AlbumName == albumName)
+                {
+                    //Album Trovato
+                    CrossToastPopUp.Current.ShowToastMessage(artistFound.Albums[i].AlbumName, Plugin.Toast.Abstractions.ToastLength.Long);
+                    AlbumPos = i;
+                    break;
+                }
+                i++;
+            }//se l'album non è stato trovato, aggiungo alla lista degli album della lista quello che stavo ricercando
+            if (AlbumPos == -1)
+            {
+                //Faccio la richiesta di update dell'artista con l'album aggiornato
+                _ = collection.UpdateOne(ArtistFilter, UpdateAlbum, new UpdateOptions { IsUpsert = true });
+                //Album Inserito
             }
+            else
+            {
+                //Se l'album è stato trovato, vado a cercarmi la traccia
+                string lyrics = UpdateTrack(artistFound, collection, ArtistFilter, AlbumPos, trackName);
+                //Se ho trovato il testo della canzone, lo restituisco
+                if (lyrics != null)
+                {
+                    return lyrics;
+                }
+            }
+            return null;
         }
-        public ArtistModel GetArtist(string ArtistName)
+        private string UpdateTrack(ArtistModel artistcollection, IMongoCollection<ArtistModel> collection, FilterDefinition<ArtistModel> ArtistFilter, int albumPos,string trackName)
         {
-            try
+            int TrackPos = -1;
+            int i = 0;
+
+            //cerco tra le tracce dell'album se la canzone che sto cercando è presente
+            while (i < artistcollection.Albums[albumPos].Tracks.Count)
             {
-                IMongoCollection<ArtistModel> collection = Db.GetCollection<ArtistModel>("Artist");
-                try
+                if (artistcollection.Albums[albumPos].Tracks[i].TrackName == trackName)
                 {
-                    ArtistModel artist = this.LoadRecordByName<ArtistModel>("Artist", "ArtistName", ArtistName);
-                    return artist;
+                    //Traccia Trovata, mi salvo la sua posizione 
+                    TrackPos = i;
+                    break;
                 }
-                catch (Exception)
-                {
-                    //CrossToastPopUp.Current.ShowToastError("Artista non trovato");
-                    //Inserire Artista(?)
-                }
+                i++;
             }
-            catch (Exception)
+            //Se la traccia non è stata trovata
+            if (TrackPos == -1)
             {
-                CrossToastPopUp.Current.ShowToastError("Errore durante il caricamento degli artisti");
+                //Aggiungo la nuova traccia tra quelle dell'album di questo artista
+                artistcollection.Albums[albumPos].Tracks.Add(new TrackModel { TrackName = trackName, Lyrics = null });
+                //Ed aggiorno il json
+                /*ReplaceOneResult ReplaceResult*/
+                _ = collection.ReplaceOne(ArtistFilter, artistcollection, new ReplaceOptions { IsUpsert = true });
+                //Traccia aggiunta
+            }
+            else
+            {
+                if (artistcollection.Albums[albumPos].Tracks[TrackPos].Lyrics == null)
+                {
+                    //Se la traccia è stata trovata ma non ho il testo della canzone, dovrò in qualche modo aggiungere il testo
+                }
+                else
+                {
+                    //Se il testo è presente, lo ritorno 
+                    return artistcollection.Albums[albumPos].Tracks[TrackPos].Lyrics;
+                }
             }
             return null;
         }
