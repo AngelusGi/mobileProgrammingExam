@@ -11,8 +11,8 @@ namespace testSpotify
 {
     public partial class App : Application
     {
-        static string mongodbPath = @"mongodb://192.168.1.20:27017";
-        static string mongodbName = "LyricsfyTest";
+        static readonly string mongodbPath = @"mongodb://192.168.1.20:27017";
+        static readonly string mongodbName = "LyricsfyTest";
         static UserPreferencesData database;
         static MongoDBClass mongo;
 
@@ -27,7 +27,6 @@ namespace testSpotify
                 return database;
             }
         }
-
         public static MongoDBClass Mongo
         {
             get
