@@ -11,33 +11,41 @@ namespace testSpotify
 {
     public partial class App : Application
     {
-        static readonly string mongodbPath = @"mongodb://192.168.1.20:27017";
-        static readonly string mongodbName = "LyricsfyTest";
-        static UserPreferencesData database;
-        static MongoDBClass mongo;
+        private const string MongodbPath = @"mongodb://13.73.155.46:27017";
+        private const string MongodbName = "LyricsfyTest";
+        private static UserPreferencesData _database;
+        private static MongoDBClass _mongo;
 
-        public static UserPreferencesData Database
-        {
-            get
-            {
-                if (database == null)
-                {
-                    database = new UserPreferencesData(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserPreferences.db3"));
-                }
-                return database;
-            }
-        }
-        public static MongoDBClass Mongo
-        {
-            get
-            {
-                if(mongo == null)
-                {
-                    mongo = new MongoDBClass(mongodbName,mongodbPath);
-                }
-                return mongo;
-            }
-        }
+
+        //public static UserPreferencesData Database
+        //{
+        //    get
+        //    {
+        //        if (_database == null)
+        //        {
+        //            _database = new UserPreferencesData(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserPreferences.db3"));
+        //        }
+        //        return _database;
+        //    }
+        //}
+        public static UserPreferencesData Database =>
+            _database ?? (_database = new UserPreferencesData(Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "UserPreferences.db3")));
+
+
+        //public static MongoDBClass Mongo
+        //{
+        //    get
+        //    {
+        //        if (_mongo == null)
+        //        {
+        //            _mongo = new MongoDBClass(MongodbName, MongodbPath);
+        //        }
+        //        return _mongo;
+        //    }
+        //}
+        public static MongoDBClass Mongo => _mongo ?? (_mongo = new MongoDBClass(MongodbName, MongodbPath));
 
 
         public App()
