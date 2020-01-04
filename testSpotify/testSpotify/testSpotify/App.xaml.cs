@@ -11,9 +11,9 @@ namespace testSpotify
 {
     public partial class App : Application
     {
-        //private const string MongodbPath = @"mongodb://13.73.155.46:27017";
+        //private const string MongodbPath = @"mongodb://40.68.75.212:27017";
         private const string MongodbPath =
-            "mongodb://unimol:MongoUnimol2020@13.73.155.46:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
+            "mongodb://unimol:MongoUnimol2020@40.68.75.212:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false";
         private const string MongodbName = "LyricsfyTest";
         private static UserPreferencesData _database;
         private static MongoDBClass _mongo;
