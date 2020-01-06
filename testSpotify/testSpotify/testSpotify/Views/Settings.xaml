@@ -11,9 +11,9 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
+            <!--disconnessione bottone-->
             <Button Text="Disconnetti utente"
-                    <!--disconnessione bottone-->
-                    />
+            ></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.10.0" />
+    <PackageReference Include="MusixMatchAPI" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Plugin.Toast" Version="2.1.2" />
     <PackageReference Include="SpotifyAPI.Web" Version="4.2.2" />
