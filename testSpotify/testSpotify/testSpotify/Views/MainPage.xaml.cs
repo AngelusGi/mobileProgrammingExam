@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using BottomBar.XamarinForms;
+using testSpotify.ViewModels;
 
 namespace testSpotify.Views
 {

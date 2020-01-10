@@ -14,7 +14,7 @@ namespace testSpotify
     public partial class App : Application
     {
         //private const string MongodbPath = @"mongodb://40.68.75.212:27017";
-        
+
         private const string MongodbPath =
             "mongodb://unimol:MongoUnimol2020@40.68.75.212:27017/?authSource=admin&readPreference=primary&ssl=false";
 
@@ -60,8 +60,11 @@ namespace testSpotify
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
-            MainPage = new MainPage();
-            CheckCredentials();
+            MainPage = new NavigationPage(new AuthView())
+            { 
+
+            };
+            //CheckCredentials();
 
         }
 
@@ -94,7 +97,7 @@ namespace testSpotify
 
             }
         }
-        
+
 
         protected override void OnStart()
         {

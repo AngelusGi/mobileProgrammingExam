@@ -8,6 +8,7 @@
             mc:Ignorable="d"
             xmlns:views="clr-namespace:testSpotify.Views"
             xmlns:views1="clr-namespace:testSpotify.Views.LyricsPage"
+            NavigationPage.HasNavigationBar="False"
     x:Class="testSpotify.Views.MainPage">
 
     <xf:BottomBarPage.Children>

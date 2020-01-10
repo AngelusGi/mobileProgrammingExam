@@ -12,6 +12,8 @@ namespace testSpotify.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        public static SpotifyAPI.Web.SpotifyWebAPI SpotifyApi { get; set; }
+
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
         bool _isBusy = false;
