@@ -14,6 +14,7 @@ using MusixMatch_API.ReturnTypes;
 using MusixMatch_API.APIMethods.Artist;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
@@ -24,8 +25,8 @@ namespace testSpotify.ViewModels
     public class AboutViewModel : BaseViewModel
     {
         private Token _lastToken;
-        private SpotifyWebAPI _api = null;
-        private Token _token = null;
+        private SpotifyWebAPI _api;
+        private Token _token;
 
 
         private HttpClient _httpClient = new HttpClient();
@@ -65,24 +66,29 @@ namespace testSpotify.ViewModels
 
             PlaybackContext context = await SpotifyApi.GetPlaybackAsync();
 
-            MatcherLyricsGet matcher = new MatcherLyricsGet()
-            { 
-                //SongArtist = context.Item.Artists.FirstOrDefault().Name, SongTitle = context.Item.Name
-                SongArtist = context.Item.Artists.FirstOrDefault()?.Name, SongTitle = context.Item.Name
-            };
-            
-
-            api.MatcherLyricsGet(
-                matcher, result =>
+            try
+            {
+                //NULL POINTER EXCEPTION = RAGION PER CUI LA PRIMA VOLTA "TEST" NON FUNZIONA
+                MatcherLyricsGet matcher = new MatcherLyricsGet()
                 {
-                    _res = result.LyricsBody;
-                },
-                error =>
-                {
-                    _res = error.FirstOrDefault().ToString();
-                });
+                    //SongArtist = context.Item.Artists.FirstOrDefault().Name, SongTitle = context.Item.Name
+                    SongArtist = context.Item.Artists.FirstOrDefault().Name, SongTitle = context.Item.Name
+                };
 
-            CrossToastPopUp.Current.ShowToastMessage(_res);
+                api.MatcherLyricsGet(
+                    matcher, result => { _res = result.LyricsBody; },
+                    error => { _res = error.FirstOrDefault().ToString(); });
+
+                CrossToastPopUp.Current.ShowToastMessage(_res);
+            }
+            catch (NullReferenceException nullReference)
+            {
+                Debug.AutoFlush = true;
+                Debug.Print($"NullReferenceException:" +
+                            $"\n\tMessage: {nullReference.Message}" +
+                            $"\n\tSource: {nullReference.Source}" +
+                            $"\n\tStack: {nullReference.StackTrace}");
+            }
         }
     }
 }

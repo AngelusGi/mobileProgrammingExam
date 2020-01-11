@@ -52,10 +52,10 @@ namespace testSpotify.Services
 
         //    return collection.Find(new BsonDocument()).ToList();
         //}
-        //public T LoadRecordById<T>(string Table, Guid Id)
+        //public T LoadRecordById<T>(string Table, Guid ID)
         //{
         //    var collection = Db.GetCollection<T>(Table);
-        //    var filter = Builders<T>.Filter.Eq("Id", Id);
+        //    var filter = Builders<T>.Filter.Eq("ID", ID);
 
         //    return collection.Find(filter).First();
         //}
