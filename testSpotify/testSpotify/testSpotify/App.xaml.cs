@@ -21,7 +21,7 @@ namespace testSpotify
         private const string MongodbName = "LyricsfyTest";
         private static UserPreferencesData _database;
         private static MongoDBClass _mongo;
-        private string _userName = "";
+        private string _userName;
 
 
         //public static UserPreferencesData Database
