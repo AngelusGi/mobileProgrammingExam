@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
 using testSpotify.Models;
 using testSpotify.Views;
 using testSpotify.ViewModels;
@@ -18,7 +17,7 @@ namespace testSpotify.Views
     [DesignTimeVisible(false)]
     public partial class ItemsPage : ContentPage
     {
-        ItemsViewModel _viewModel;
+        private ItemsViewModel _viewModel;
 
         public ItemsPage()
         {
@@ -27,7 +26,7 @@ namespace testSpotify.Views
             BindingContext = _viewModel = new ItemsViewModel();
         }
 
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
             var item = args.SelectedItem as Item;
             if (item == null)
@@ -39,7 +38,7 @@ namespace testSpotify.Views
             ItemsListView.SelectedItem = null;
         }
 
-        async void AddItem_Clicked(object sender, EventArgs e)
+        private async void AddItem_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
         }

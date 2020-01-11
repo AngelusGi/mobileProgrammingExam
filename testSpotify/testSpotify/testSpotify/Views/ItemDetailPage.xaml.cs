@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
 using testSpotify.Models;
 using testSpotify.ViewModels;
 
@@ -13,7 +12,7 @@ namespace testSpotify.Views
     [DesignTimeVisible(false)]
     public partial class ItemDetailPage : ContentPage
     {
-        readonly ItemDetailViewModel _viewModel;
+        private readonly ItemDetailViewModel _viewModel;
 
         public ItemDetailPage(ItemDetailViewModel viewModel)
         {

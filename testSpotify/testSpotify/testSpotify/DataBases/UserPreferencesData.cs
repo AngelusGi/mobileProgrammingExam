@@ -10,7 +10,7 @@ namespace testSpotify.DataBases
 {
     public class UserPreferencesData
     {
-        readonly SQLiteAsyncConnection _database;
+        private readonly SQLiteAsyncConnection _database;
 
         public UserPreferencesData(string dbPath)
         {
@@ -26,20 +26,21 @@ namespace testSpotify.DataBases
         public Task<LocalArtistModel> GetArtistAsync(int id)
         {
             return _database.Table<LocalArtistModel>()
-                            .Where(i => i.ID == id)
-                            .FirstOrDefaultAsync();
+                .Where(i => i.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public Task<int> SaveArtistAsync(LocalArtistModel artistModel)
         {
-            if(artistModel.ID != 0)
-            {
-                return _database.UpdateAsync(artistModel);
-            }
-            else
-            {
-                return _database.InsertAsync(artistModel);
-            }
+            //if(artistModel.ID != 0)
+            //{
+            //    return _database.UpdateAsync(artistModel);
+            //}
+            //else
+            //{
+            //    return _database.InsertAsync(artistModel);
+            //}
+            return artistModel.Id != 0 ? _database.UpdateAsync(artistModel) : _database.InsertAsync(artistModel);
         }
 
         public Task<int> DeleteArtistAsync(LocalArtistModel artistModel)

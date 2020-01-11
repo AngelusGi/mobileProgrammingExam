@@ -14,25 +14,25 @@ namespace testSpotify.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AuthView : ContentPage
     {
-        private string absoluteurl;
-        private AuthUtils authUtils;
+        private string _absoluteurl;
+        private AuthUtils _authUtils;
 
         public AuthView()
         {
             InitializeComponent();
-            authUtils = new AuthUtils();
-            getAuth();
+            _authUtils = new AuthUtils();
+            GetAuth();
         }
 
-        private void getAuth()
+        private void GetAuth()
         {
-            browser.Source = authUtils.ServerURI;
+            browser.Source = _authUtils.ServerUri;
 
             browser.Navigating += async (object sender, WebNavigatingEventArgs e) =>
             {
-                absoluteurl = e.Url;
+                _absoluteurl = e.Url;
 
-                BaseViewModel.SpotifyApi = await authUtils.getApi(absoluteurl);
+                BaseViewModel.SpotifyApi = await _authUtils.GetApi(_absoluteurl);
 
                 if (BaseViewModel.SpotifyApi != null)
                 {
@@ -41,9 +41,5 @@ namespace testSpotify.Views
             };
             //auth.OpenBrowser();
         }
-
-
-
-        
     }
 }

@@ -10,26 +10,42 @@ using Plugin.Toast;
 
 namespace testSpotify.Services
 {
-    public class MongoDBClass
+    public class MongoDbClass
     {
-
         public IMongoDatabase Db { get; set; }
         public MongoClient Client { get; set; }
 
-
-
-        public MongoDBClass(string database, string mongodbpath)
+        /// <summary>
+        /// Instanzia la connessione con il DB Mongo
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="mongodbpath"></param>
+        public MongoDbClass(string database, string mongodbpath)
         {
             Client = new MongoClient(mongodbpath);
             Db = Client.GetDatabase(database);
         }
 
-
-        public void InsertRecord<T>(string Table, T Record)
+        /// <summary>
+        /// Insrisce un record nel DB Mongo
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <param name="record"></param>
+        public void InsertRecord<T>(string table, T record)
         {
-            var collection = Db.GetCollection<T>(Table);
-            collection.InsertOne(Record);
+            var collection = Db.GetCollection<T>(table);
+            collection.InsertOne(record);
         }
+
+        /// <summary>
+        /// Ottiene il record invocato
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         //public List<T> LoadRecord<T>(string Table)
         //{
         //    var collection = Db.GetCollection<T>(Table);
@@ -43,10 +59,10 @@ namespace testSpotify.Services
 
         //    return collection.Find(filter).First();
         //}
-        public T LoadRecordByName<T>(string Table, string Field, string Value)
+        public T LoadRecordByName<T>(string table, string field, string value)
         {
-            var collection = Db.GetCollection<T>(Table);
-            var filter = Builders<T>.Filter.Eq(Field, Value);
+            var collection = Db.GetCollection<T>(table);
+            var filter = Builders<T>.Filter.Eq(field, value);
             try
             {
                 var result = collection.Find(filter).FirstOrDefault();
@@ -63,7 +79,7 @@ namespace testSpotify.Services
         /// </summary>
         /// <param name="artistName">Chiave di ricerca</param>
         /// <returns>Se presente, ritorna il testo della canzone</returns>
-        public string UpdateMongoDBArtist(string artistName, string albumName, string trackName)
+        public string UpdateMongoDbArtist(string artistName, string albumName, string trackName)
         {
             IMongoCollection<ArtistModel> collection = Db.GetCollection<ArtistModel>("Artist");
 
@@ -81,7 +97,8 @@ namespace testSpotify.Services
                     {
                         return lyrics;
                     }
-                } //Se l'artista non è presente
+                }
+                //Se l'artista non è presente
                 else
                 {
                     //InserisciArtista();
@@ -92,67 +109,78 @@ namespace testSpotify.Services
                 //InserisciArtista();
                 //Gestire Errore
             }
+
             return null;
         }
-        private string UpdateAlbum(ArtistModel artistFound, IMongoCollection<ArtistModel> collection, string albumName, string trackName)
+
+
+        private string UpdateAlbum(ArtistModel artistFound, IMongoCollection<ArtistModel> collection, string albumName,
+            string trackName)
         {
             //Costruzione a manella del filtro di ricerca del Nome dell'artista
-            FilterDefinition<ArtistModel> ArtistFilter = Builders<ArtistModel>.Filter.Eq("ArtistName", artistFound.ArtistName);
+            FilterDefinition<ArtistModel> artistFilter =
+                Builders<ArtistModel>.Filter.Eq("ArtistName", artistFound.ArtistName);
 
             //Se l'artista fosse presente ma l'album no, costruzione a manella del json per l'update dell'album
-            var UpdateAlbum = Builders<ArtistModel>.Update.Push("Albums",
-                new AlbumModel
+            var updateAlbum = Builders<ArtistModel>.Update.Push("Albums", new AlbumModel
+            {
+                AlbumName = albumName,
+                Tracks = new List<TrackModel>
                 {
-                    AlbumName = albumName,
-                    Tracks = new List<TrackModel>
+                    new TrackModel
                     {
-                        new TrackModel
-                        {
-                            TrackName = trackName,
-                            Lyrics = null
-                        }
+                        TrackName = trackName,
+                        Lyrics = null
                     }
-                });
-            int AlbumPos = -1;
-            int i = 0;
+                }
+            });
+            
+            int albumPos = -1;
+            int index = 0;
 
             //Ricerca dell'album
-            while (i < artistFound.Albums.Count)
+            while (index < artistFound.Albums.Count)
             {
                 //Se l'album è stato trovato, mi salvo la sua posizione tra i vari album dell'artista
-                if (artistFound.Albums[i].AlbumName == albumName)
+                if (artistFound.Albums[index].AlbumName == albumName)
                 {
                     //Album Trovato
-                    CrossToastPopUp.Current.ShowToastMessage(artistFound.Albums[i].AlbumName, Plugin.Toast.Abstractions.ToastLength.Long);
-                    AlbumPos = i;
+                    CrossToastPopUp.Current.ShowToastMessage(artistFound.Albums[index].AlbumName,
+                        Plugin.Toast.Abstractions.ToastLength.Long);
+                    albumPos = index;
                     break;
                 }
-                i++;
-            }//se l'album non è stato trovato, aggiungo alla lista degli album della lista quello che stavo ricercando
-            if (AlbumPos == -1)
+
+                index++;
+            } //se l'album non è stato trovato, aggiungo alla lista degli album della lista quello che stavo ricercando
+
+            if (albumPos == -1)
             {
                 //Faccio la richiesta di update dell'artista con l'album aggiornato
-                _ = collection.UpdateOne(ArtistFilter, UpdateAlbum, new UpdateOptions { IsUpsert = true });
+                _ = collection.UpdateOne(artistFilter, updateAlbum, new UpdateOptions {IsUpsert = true});
                 //Album Inserito
             }
             else
             {
                 //Se l'album è stato trovato, vado a cercarmi la traccia
-                string lyrics = UpdateTrack(artistFound, collection, ArtistFilter, AlbumPos, trackName);
+                string lyrics = UpdateTrack(artistFound, collection, artistFilter, albumPos, trackName);
                 //Se ho trovato il testo della canzone, lo restituisco
                 if (lyrics != null)
                 {
                     return lyrics;
                 }
             }
+
             return null;
         }
-        private string UpdateTrack(ArtistModel artistFound, IMongoCollection<ArtistModel> collection, FilterDefinition<ArtistModel> ArtistFilter, int albumPos,string trackName)
-        {
-            int TrackPos = -1;
-            int i = 0;
 
-            var UpdateAlbum = Builders<ArtistModel>.Update.Push("Albums",
+        private string UpdateTrack(ArtistModel artistFound, IMongoCollection<ArtistModel> collection,
+            FilterDefinition<ArtistModel> artistFilter, int albumPos, string trackName)
+        {
+            int trackPos = -1;
+            int index = 0;
+
+            var updateAlbum = Builders<ArtistModel>.Update.Push("Albums",
                 new AlbumModel
                 {
                     AlbumName = artistFound.Albums[albumPos].AlbumName,
@@ -165,21 +193,23 @@ namespace testSpotify.Services
                         }
                     }
                 });
-            
+
 
             //cerco tra le tracce dell'album se la canzone che sto cercando è presente
-            while (i < artistFound.Albums[albumPos].Tracks.Count)
+            while (index < artistFound.Albums[albumPos].Tracks.Count)
             {
-                if (artistFound.Albums[albumPos].Tracks[i].TrackName == trackName)
+                if (artistFound.Albums[albumPos].Tracks[index].TrackName == trackName)
                 {
                     //Traccia Trovata, mi salvo la sua posizione 
-                    TrackPos = i;
+                    trackPos = index;
                     break;
                 }
-                i++;
+
+                index++;
             }
+
             //Se la traccia non è stata trovata
-            if (TrackPos == -1)
+            if (trackPos == -1)
             {
                 //OLD
                 //artistFound.Albums[albumPos].Tracks.Add(new TrackModel { TrackName = trackName, Lyrics = null });
@@ -188,23 +218,23 @@ namespace testSpotify.Services
 
                 //NEW
                 //Aggiorno l'album con la nuova traccia
-                _ = collection.UpdateOne(ArtistFilter, UpdateAlbum, new UpdateOptions { IsUpsert = true });
+                _ = collection.UpdateOne(artistFilter, updateAlbum, new UpdateOptions {IsUpsert = true});
                 //Traccia aggiunta
             }
             else
             {
-                if (artistFound.Albums[albumPos].Tracks[TrackPos].Lyrics == null)
+                if (artistFound.Albums[albumPos].Tracks[trackPos].Lyrics == null)
                 {
                     //Se la traccia è stata trovata ma non ho il testo della canzone, dovrò in qualche modo aggiungere il testo
                 }
                 else
                 {
                     //Se il testo è presente, lo ritorno 
-                    return artistFound.Albums[albumPos].Tracks[TrackPos].Lyrics;
+                    return artistFound.Albums[albumPos].Tracks[trackPos].Lyrics;
                 }
             }
+
             return null;
         }
     }
-
 }

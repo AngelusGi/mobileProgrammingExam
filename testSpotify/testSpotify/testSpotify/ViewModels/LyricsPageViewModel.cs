@@ -9,11 +9,10 @@ using Plugin.Toast;
 
 namespace testSpotify.ViewModels
 {
-    class LyricsPageViewModel : BaseViewModel
+    internal class LyricsPageViewModel : BaseViewModel
     {
         public LyricsPageViewModel()
         {
-
         }
     }
 }

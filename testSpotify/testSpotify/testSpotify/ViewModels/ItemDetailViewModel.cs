@@ -1,5 +1,4 @@
 ﻿using System;
-
 using testSpotify.Models;
 
 namespace testSpotify.ViewModels
@@ -7,6 +6,7 @@ namespace testSpotify.ViewModels
     public class ItemDetailViewModel : BaseViewModel
     {
         public Item Item { get; set; }
+
         public ItemDetailViewModel(Item item = null)
         {
             Title = item?.Text;

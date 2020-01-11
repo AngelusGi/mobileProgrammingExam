@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
@@ -12,76 +13,83 @@ namespace testSpotify.Utils
 {
     public class AuthUtils
     {
-        private Token lastToken;
+        private Token _lastToken;
         private Token _token;
         private SpotifyWebAPI _api;
-        private HttpRequestMessage request;
-        private HttpClient httpClient;
-        private TokenSwapAuth auth;
-        private string code;
-        public string ServerURI { get; set; }
+        private HttpRequestMessage _request;
+        private HttpClient _httpClient;
+        private TokenSwapAuth _auth;
+        private string _code;
+        public string ServerUri { get; set; }
 
         public AuthUtils()
         {
-            httpClient = new HttpClient();
+            _httpClient = new HttpClient();
 
-            auth = new TokenSwapAuth("http://40.68.75.212:80/spotify/index.php", "http://40.68.75.212:80/", Scope.PlaylistReadPrivate | Scope.UserReadRecentlyPlayed | Scope.UserReadPrivate | Scope.UserReadEmail | Scope.PlaylistReadPrivate | Scope.UserReadCurrentlyPlaying | Scope.UserReadPlaybackState)
+            _auth = new TokenSwapAuth("http://40.68.75.212:80/spotify/index.php", "http://40.68.75.212:80/",
+                Scope.PlaylistReadPrivate | Scope.UserReadRecentlyPlayed | Scope.UserReadPrivate | Scope.UserReadEmail |
+                Scope.PlaylistReadPrivate | Scope.UserReadCurrentlyPlaying | Scope.UserReadPlaybackState)
             {
                 ShowDialog = false
             };
-            auth.AuthReceived += async (sender, response2) =>
+            _auth.AuthReceived += async (sender, response2) =>
             {
-                lastToken = await auth.ExchangeCodeAsync(response2.Code);
+                _lastToken = await _auth.ExchangeCodeAsync(response2.Code);
                 _api = new SpotifyWebAPI()
                 {
-                    TokenType = lastToken.TokenType,
-                    AccessToken = lastToken.AccessToken
+                    TokenType = _lastToken.TokenType,
+                    AccessToken = _lastToken.AccessToken
                 };
             };
-            auth.OnAccessTokenExpired += async (sender, e) => _api.AccessToken = (await auth.RefreshAuthAsync(lastToken.RefreshToken)).AccessToken;
-            ServerURI = auth.GetUri();
-            auth.Start();
+            _auth.OnAccessTokenExpired += async (sender, e) =>
+                _api.AccessToken = (await _auth.RefreshAuthAsync(_lastToken.RefreshToken)).AccessToken;
+            ServerUri = _auth.GetUri();
+            _auth.Start();
         }
 
-        private async Task<Token> setToken(string code)
+        private async Task<Token> SetToken(string code)
         {
-            request = new HttpRequestMessage(new HttpMethod("POST"), "https://accounts.spotify.com/api/token");
-            request.Headers.TryAddWithoutValidation("Authorization", "Basic MmU0NGE2NmIyMzYxNGFjOWIyYWFhMzFiNTI1ZGQxYjI6ODlkZTIwNWRlZDc3NGE0MWIxMzc4NTc4MDZjMWU0Nzk=");
+            _request = new HttpRequestMessage(new HttpMethod("POST"), "https://accounts.spotify.com/api/token");
+            _request.Headers.TryAddWithoutValidation("Authorization",
+                "Basic MmU0NGE2NmIyMzYxNGFjOWIyYWFhMzFiNTI1ZGQxYjI6ODlkZTIwNWRlZDc3NGE0MWIxMzc4NTc4MDZjMWU0Nzk=");
 
             var contentList = new List<string>();
             contentList.Add("grant_type=authorization_code");
             contentList.Add(code);
             contentList.Add("redirect_uri=http%3A%2F%2F40.68.75.212%3A80%2Fspotify%2Fredirect.php");
 
-            request.Content = new StringContent(string.Join("&", contentList));
-            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            _request.Content = new StringContent(string.Join("&", contentList));
+            _request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
-            HttpResponseMessage response = await httpClient.SendAsync(request);
+            HttpResponseMessage response = await _httpClient.SendAsync(_request);
             string data = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<Token>(data);
         }
-        private string getBetween(string strSource, string strStart, string strEnd)
+
+        private string GetBetween(string strSource, string strStart, string strEnd)
         {
-            int Start, End;
             if (strSource.Contains(strStart) && strSource.Contains(strEnd))
             {
-                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
-                End = strSource.IndexOf(strEnd, Start);
-                return strSource.Substring(Start, End - Start);
+                //int start = strSource.IndexOf(strStart, 0) + strStart.Length;
+                //int end = strSource.IndexOf(strEnd, start);
+                int start = strSource.IndexOf(strStart, 0, StringComparison.InvariantCulture) + strStart.Length;
+                int end = strSource.IndexOf(strEnd, start, StringComparison.InvariantCulture);
+                return strSource.Substring(start, end - start);
             }
             else
             {
                 return "";
             }
         }
-        public async Task<SpotifyWebAPI> getApi(string _absoultURL)
-        {
-            code = getBetween(_absoultURL, "?", "&");
 
-            if (code.Contains("code="))
+        public async Task<SpotifyWebAPI> GetApi(string absoultUrl)
+        {
+            _code = GetBetween(absoultUrl, "?", "&");
+
+            if (_code.Contains("code="))
             {
-                _token = await setToken(code);
+                _token = await SetToken(_code);
 
                 if (_token != null)
                 {
@@ -89,18 +97,16 @@ namespace testSpotify.Utils
                     {
                         TokenType = _token.TokenType,
                         AccessToken = _token.AccessToken,
-
                     };
 
                     if (_api.AccessToken.Length > 1)
                     {
-
                         return _api;
                     }
                 }
             }
+
             return default;
         }
-
     }
 }

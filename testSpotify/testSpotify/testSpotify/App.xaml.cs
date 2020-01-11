@@ -20,8 +20,9 @@ namespace testSpotify
 
         private const string MongodbName = "LyricsfyTest";
         private static UserPreferencesData _database;
-        private static MongoDBClass _mongo;
-        private string _userName;
+
+        private static MongoDbClass _mongo;
+        //private string _userName;
 
 
         //public static UserPreferencesData Database
@@ -52,7 +53,7 @@ namespace testSpotify
         //        return _mongo;
         //    }
         //}
-        public static MongoDBClass Mongo => _mongo ?? (_mongo = new MongoDBClass(MongodbName, MongodbPath));
+        public static MongoDbClass Mongo => _mongo ?? (_mongo = new MongoDbClass(MongodbName, MongodbPath));
 
 
         public App()
@@ -61,42 +62,40 @@ namespace testSpotify
 
             DependencyService.Register<MockDataStore>();
             MainPage = new NavigationPage(new AuthView())
-            { 
-
+            {
             };
             //CheckCredentials();
-
         }
 
-        private async void CheckCredentials()
-        {
-            //Preferences.Remove(_userName);
-            if (Preferences.Get(_userName, string.Empty).Equals(String.Empty))
-            {
+        //private async void CheckCredentials()
+        //{
+        //    //Preferences.Remove(_userName);
+        //    if (Preferences.Get(_userName, string.Empty).Equals(String.Empty))
+        //    {
 
-                if (await MainPage.DisplayAlert("Memorizza credenziali", "Vuoi memorizzare le credenziali?", "Si", "No"))
-                {
-                    //todo _obtainedCredentials
-                    Preferences.Set(_userName, "test");
-                    Debug.Print($"{nameof(_userName)} = {_userName}");
-                }
-                else
-                {
-                    Preferences.Remove(_userName);
-                    Debug.Print($"{nameof(_userName)} = {_userName}");
+        //        if (await MainPage.DisplayAlert("Memorizza credenziali", "Vuoi memorizzare le credenziali?", "Si", "No"))
+        //        {
+        //            //todo _obtainedCredentials
+        //            Preferences.Set(_userName, "test");
+        //            Debug.Print($"{nameof(_userName)} = {_userName}");
+        //        }
+        //        else
+        //        {
+        //            Preferences.Remove(_userName);
+        //            Debug.Print($"{nameof(_userName)} = {_userName}");
 
-                }
+        //        }
 
-            }
-            else
-            {
-                //await MainPage.DisplayAlert("test", $"{nameof(_userName)} = {_userName}", "ok");
-                await MainPage.DisplayAlert("test", $"{nameof(_userName)} = {Preferences.Get(_userName, string.Empty)}", "ok");
+        //    }
+        //    else
+        //    {
+        //        //await MainPage.DisplayAlert("test", $"{nameof(_userName)} = {_userName}", "ok");
+        //        await MainPage.DisplayAlert("test", $"{nameof(_userName)} = {Preferences.Get(_userName, string.Empty)}", "ok");
 
-                //todo inserimento login
+        //        //todo inserimento login
 
-            }
-        }
+        //    }
+        //}
 
 
         protected override void OnStart()

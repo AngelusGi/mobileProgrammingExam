@@ -2,10 +2,9 @@
 
 namespace testSpotify.Models
 {
-        public class TrackModel
-        {
-            public string TrackName { get; set; }
-            public string Lyrics { get; set; }
-        }
-
+    public class TrackModel
+    {
+        public string TrackName { get; set; }
+        public string Lyrics { get; set; }
+    }
 }
