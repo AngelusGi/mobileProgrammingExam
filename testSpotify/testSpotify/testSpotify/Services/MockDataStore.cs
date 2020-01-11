@@ -50,7 +50,9 @@ namespace testSpotify.Services
 
         public async Task<bool> UpdateItemAsync(Item item)
         {
-            var oldItem = _items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
+            //var oldItem = _items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
+            
+            var oldItem = _items.FirstOrDefault(arg => arg.Id == item.Id);
             _items.Remove(oldItem);
             _items.Add(item);
 

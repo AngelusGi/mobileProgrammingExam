@@ -98,11 +98,13 @@ namespace testSpotify.Utils
                         TokenType = _token.TokenType,
                         AccessToken = _token.AccessToken,
                     };
+                    return _api;
 
-                    if (_api.AccessToken.Length > 1)
-                    {
-                        return _api;
-                    }
+                    //CAUSAVA NULL POINTER INIZIALE
+                    //if (_api.AccessToken.Length > 1)
+                    //{
+                    //    return _api;
+                    //}
                 }
             }
 

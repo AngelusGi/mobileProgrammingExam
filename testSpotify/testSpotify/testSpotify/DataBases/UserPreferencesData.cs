@@ -26,7 +26,7 @@ namespace testSpotify.DataBases
         public Task<LocalArtistModel> GetArtistAsync(int id)
         {
             return _database.Table<LocalArtistModel>()
-                .Where(i => i.Id == id)
+                .Where(artistModel => artistModel.ID == id)
                 .FirstOrDefaultAsync();
         }
 
@@ -40,7 +40,7 @@ namespace testSpotify.DataBases
             //{
             //    return _database.InsertAsync(artistModel);
             //}
-            return artistModel.Id != 0 ? _database.UpdateAsync(artistModel) : _database.InsertAsync(artistModel);
+            return artistModel.ID != 0 ? _database.UpdateAsync(artistModel) : _database.InsertAsync(artistModel);
         }
 
         public Task<int> DeleteArtistAsync(LocalArtistModel artistModel)
