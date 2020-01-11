@@ -26,7 +26,7 @@ namespace testSpotify.Views
 
         private void getAuth()
         {
-            browser.Source = authUtils.AbsoluteURL;
+            browser.Source = authUtils.ServerURI;
 
             browser.Navigating += async (object sender, WebNavigatingEventArgs e) =>
             {

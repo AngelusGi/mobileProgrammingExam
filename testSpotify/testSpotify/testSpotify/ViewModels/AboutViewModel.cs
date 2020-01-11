@@ -64,9 +64,10 @@ namespace testSpotify.ViewModels
             //});
 
             PlaybackContext context = await SpotifyApi.GetPlaybackAsync();
-            
 
-            MusixMatch_API.APIMethods.Matcher.MatcherLyricsGet matcher = new MusixMatch_API.APIMethods.Matcher.MatcherLyricsGet() { SongArtist = context.Item.Artists.FirstOrDefault().Name, SongTitle = context.Item.Name };
+
+            MusixMatch_API.APIMethods.Matcher.MatcherLyricsGet matcher = 
+                new MusixMatch_API.APIMethods.Matcher.MatcherLyricsGet() { SongArtist = context.Item.Artists.FirstOrDefault().Name, SongTitle = context.Item.Name };
 
             api.MatcherLyricsGet(matcher, result =>
             {
@@ -77,9 +78,9 @@ namespace testSpotify.ViewModels
             });
 
             CrossToastPopUp.Current.ShowToastMessage(res);
-            
+
         }
 
-        
+
     }
 }

@@ -3,11 +3,9 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace testSpotify.Utils
@@ -21,14 +19,15 @@ namespace testSpotify.Utils
         private HttpClient httpClient;
         private TokenSwapAuth auth;
         private string code;
-        public string AbsoluteURL { get; set; }
+        public string ServerURI { get; set; }
 
         public AuthUtils()
         {
             httpClient = new HttpClient();
-            auth = new TokenSwapAuth("http://10.64.195.77:80/spotify/index.php", "http://10.64.195.77:80", Scope.PlaylistReadPrivate | Scope.UserReadRecentlyPlayed | Scope.UserReadPrivate | Scope.UserReadEmail | Scope.PlaylistReadPrivate | Scope.UserReadCurrentlyPlaying | Scope.UserReadPlaybackState)
+
+            auth = new TokenSwapAuth("http://40.68.75.212:80/spotify/index.php", "http://40.68.75.212:80/", Scope.PlaylistReadPrivate | Scope.UserReadRecentlyPlayed | Scope.UserReadPrivate | Scope.UserReadEmail | Scope.PlaylistReadPrivate | Scope.UserReadCurrentlyPlaying | Scope.UserReadPlaybackState)
             {
-                ShowDialog = true
+                ShowDialog = false
             };
             auth.AuthReceived += async (sender, response2) =>
             {
@@ -40,7 +39,7 @@ namespace testSpotify.Utils
                 };
             };
             auth.OnAccessTokenExpired += async (sender, e) => _api.AccessToken = (await auth.RefreshAuthAsync(lastToken.RefreshToken)).AccessToken;
-            AbsoluteURL = auth.GetUri();
+            ServerURI = auth.GetUri();
             auth.Start();
         }
 
@@ -52,7 +51,7 @@ namespace testSpotify.Utils
             var contentList = new List<string>();
             contentList.Add("grant_type=authorization_code");
             contentList.Add(code);
-            contentList.Add("redirect_uri=http%3A%2F%2F10.64.195.77%3A80%2Fspotify%2Fredirect.php");
+            contentList.Add("redirect_uri=http%3A%2F%2F40.68.75.212%3A80%2Fspotify%2Fredirect.php");
 
             request.Content = new StringContent(string.Join("&", contentList));
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
