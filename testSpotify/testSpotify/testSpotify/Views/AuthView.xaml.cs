@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using testSpotify.Utils;
 using testSpotify.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,6 +21,9 @@ namespace testSpotify.Views
         public AuthView()
         {
             InitializeComponent();
+
+            //SERVE UNA SESSIONE DI SPOTIFY APERTA.
+            //Launcher.OpenAsync("spotify://");
             _authUtils = new AuthUtils();
             GetAuth();
         }
@@ -27,6 +31,8 @@ namespace testSpotify.Views
         private void GetAuth()
         {
             browser.Source = _authUtils.ServerUri;
+
+            
 
             browser.Navigating += async (object sender, WebNavigatingEventArgs e) =>
             {

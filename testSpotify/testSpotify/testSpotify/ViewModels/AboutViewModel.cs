@@ -36,44 +36,26 @@ namespace testSpotify.ViewModels
 
         private async void TestAuth()
         {
+
+            //Problemi 
+            // - funziona solo quando spotify è già in riproduzione
+            // - funziona solo quando spotify è aperto in uno dei qualsiasi dispositivi a cui è collegato l'account
+
+            // Istanzio qui il playback dato che ad ogni click deve scaricare le informazioni sul brano
             playback = await SpotifyApi.GetPlaybackAsync();
 
             if (playback.Context != null || playback.Item != null)
             {
-                Preferences.Set("LastDevice", playback.Device.Id);
-
                 if (playback.IsPlaying)
                 {
                     ErrorResponse x = await SpotifyApi.PausePlaybackAsync();
                 }
                 else
                 {
-                    ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(string.Empty, string.Empty,
+                    ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(playback.Device.Id, string.Empty,
                         new List<string>() { playback.Item.Uri }, "", playback.ProgressMs);
                 }
             }
-            else
-            {
-                var lastDevice = Preferences.Get("LastDevice", string.Empty);
-
-                AvailabeDevices availabledevices = await SpotifyApi.GetDevicesAsync();
-                SpotifyAPI.Web.Models.Device dev = null;
-
-                availabledevices.Devices.ForEach(temp =>
-                {
-                    if (temp.Id == lastDevice)
-                        dev = temp;
-                });
-                dev.IsActive = true;
-                SpotifyApi.TransferPlayback(dev.Id);
-
-
-                CursorPaging<PlayHistory> recentlyPlayed = await SpotifyApi.GetUsersRecentlyPlayedTracksAsync();
-                ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(
-                    lastDevice, string.Empty,
-                    new List<string>() { recentlyPlayed.Items.FirstOrDefault().Track.Uri }, string.Empty, 0);
-            }
-            //CrossToastPopUp.Current.ShowToastMessage(x.Error.Message);
         }
     }
 }

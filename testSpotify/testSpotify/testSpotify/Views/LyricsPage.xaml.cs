@@ -12,18 +12,15 @@ namespace testSpotify.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LyricsPage : ContentPage
     {
-        private LyricsPageViewModel vm;
         public LyricsPage()
         {
             InitializeComponent();
-            vm = new LyricsPageViewModel();
-            this.BindingContext = vm;
             this.Appearing += LyricsPage_Appearing;
         }
 
         private void LyricsPage_Appearing(object sender, EventArgs e)
         {
-            BindingContext.GetType().GetMethod("SetMatcherAsync").Invoke(vm, null);
+            BindingContext.GetType().GetMethod("SetMatcherAsync").Invoke((BindingContext as LyricsPageViewModel), null);
         }
     }
 }

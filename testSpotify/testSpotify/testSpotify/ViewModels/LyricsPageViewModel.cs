@@ -18,6 +18,7 @@ namespace testSpotify.ViewModels
     internal class LyricsPageViewModel : BaseViewModel
     {
         private MusixMatchApi api;
+        private PlaybackContext playback;
         private string albumName;
         private string artistName;
         private string trackName;
@@ -74,20 +75,21 @@ namespace testSpotify.ViewModels
         public async void SetMatcherAsync()
         {
 
-            PlaybackContext context = await SpotifyApi.GetPlaybackAsync();
-            if (context != null)
+            playback = await SpotifyApi.GetPlaybackAsync();
+
+            if (playback.Item != null)
             {
-                AlbumName = "RIPRODUZIONE DA ALBUM\n" + context.Item.Album.Name;
-                AlbumImage = context.Item.Album.Images.FirstOrDefault().Url;
-                TrackName = context.Item.Name;
-                ArtistName = context.Item.Artists.FirstOrDefault().Name;
+                AlbumName = "RIPRODUZIONE DA ALBUM\n" + playback.Item.Album.Name;
+                AlbumImage = playback.Item.Album.Images.FirstOrDefault().Url;
+                TrackName = playback.Item.Name;
+                ArtistName = playback.Item.Artists.FirstOrDefault().Name;
 
                 try
                 {
                     MatcherLyricsGet matcher = new MatcherLyricsGet()
                     {
-                        SongArtist = context.Item.Artists.FirstOrDefault().Name,
-                        SongTitle = context.Item.Name
+                        SongArtist = playback.Item.Artists.FirstOrDefault().Name,
+                        SongTitle = playback.Item.Name
                     };
 
                     api.MatcherLyricsGet(
