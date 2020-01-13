@@ -15,6 +15,7 @@ namespace testSpotify.Views
         public MainPage()
         {
             InitializeComponent();
+
         }
     }
 }

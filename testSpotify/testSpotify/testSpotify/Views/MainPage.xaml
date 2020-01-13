@@ -7,20 +7,19 @@
             xmlns:xf="clr-namespace:BottomBar.XamarinForms;assembly=BottomBar.XamarinForms"
             mc:Ignorable="d"
             xmlns:views="clr-namespace:testSpotify.Views"
-            xmlns:views1="clr-namespace:testSpotify.Views.LyricsPage"
             NavigationPage.HasNavigationBar="False"
     x:Class="testSpotify.Views.MainPage">
 
     <xf:BottomBarPage.Children>
 
         <NavigationPage Title="Home" Icon="ic_home.png">
-            <x:Arguments >
+            <x:Arguments>
                 <views:ItemsPage Title="Home" 
                                  NavigationPage.HasNavigationBar="False" />
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage Title="Cerca" Icon="ic_search.png" NavigationPage.HasNavigationBar="False">
+        <NavigationPage Title="Cerca" Icon="ic_search.png">
             <x:Arguments >
                 <views:AboutPage Title="Cerca" 
                                  Icon="ic_search.png"

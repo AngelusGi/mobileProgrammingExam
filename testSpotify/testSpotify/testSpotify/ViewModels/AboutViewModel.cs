@@ -24,14 +24,9 @@ namespace testSpotify.ViewModels
 {
     public class AboutViewModel : BaseViewModel
     {
-        private Token _lastToken;
-        private SpotifyWebAPI _api;
-        private Token _token;
 
-
-        private HttpClient _httpClient = new HttpClient();
-        private HttpRequestMessage _request = null;
-        private string _res;
+        private PlaybackContext playback;
+        public ICommand TestAuthCommand { get; }
 
         public AboutViewModel()
         {
@@ -39,56 +34,46 @@ namespace testSpotify.ViewModels
             TestAuthCommand = new Command(() => TestAuth());
         }
 
-        public ICommand TestAuthCommand { get; }
-
         private async void TestAuth()
         {
-            var api = new MusixMatchApi("5f18a4bfea8c334574b0860a8b638409");
-            //var artistSearch = new ArtistSearch { ArtistName = "Paolo Nutini" };
-            //api.ArtistSearch(artistSearch, result =>
-            //{
-            //    // Your results in result
+            playback = await SpotifyApi.GetPlaybackAsync();
 
-            //    artistId = result.FirstOrDefault().Artist.ArtistId;
-            //}, error =>
-            //{
-            //    // Something went wrong. Error is in error string.
-            //});
-
-            //var lyricsSearch = new TrackSearch() { FilterOnArtistId = artistId };
-            //api.TrackSearch(lyricsSearch, result =>
-            //{
-            //    trackId = result.FirstOrDefault().Track.TrackName;
-            //}, error =>
-            //{
-
-            //});
-
-            PlaybackContext context = await SpotifyApi.GetPlaybackAsync();
-
-            try
+            if (playback.Context != null || playback.Item != null)
             {
-                //NULL POINTER EXCEPTION = RAGION PER CUI LA PRIMA VOLTA "TEST" NON FUNZIONA
-                MatcherLyricsGet matcher = new MatcherLyricsGet()
+                Preferences.Set("LastDevice", playback.Device.Id);
+
+                if (playback.IsPlaying)
                 {
-                    //SongArtist = context.Item.Artists.FirstOrDefault().Name, SongTitle = context.Item.Name
-                    SongArtist = context.Item.Artists.FirstOrDefault().Name, SongTitle = context.Item.Name
-                };
-
-                api.MatcherLyricsGet(
-                    matcher, result => { _res = result.LyricsBody; },
-                    error => { _res = error.FirstOrDefault().ToString(); });
-
-                CrossToastPopUp.Current.ShowToastMessage(_res);
+                    ErrorResponse x = await SpotifyApi.PausePlaybackAsync();
+                }
+                else
+                {
+                    ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(string.Empty, string.Empty,
+                        new List<string>() { playback.Item.Uri }, "", playback.ProgressMs);
+                }
             }
-            catch (NullReferenceException nullReference)
+            else
             {
-                Debug.AutoFlush = true;
-                Debug.Print($"NullReferenceException:" +
-                            $"\n\tMessage: {nullReference.Message}" +
-                            $"\n\tSource: {nullReference.Source}" +
-                            $"\n\tStack: {nullReference.StackTrace}");
+                var lastDevice = Preferences.Get("LastDevice", string.Empty);
+
+                AvailabeDevices availabledevices = await SpotifyApi.GetDevicesAsync();
+                SpotifyAPI.Web.Models.Device dev = null;
+
+                availabledevices.Devices.ForEach(temp =>
+                {
+                    if (temp.Id == lastDevice)
+                        dev = temp;
+                });
+                dev.IsActive = true;
+                SpotifyApi.TransferPlayback(dev.Id);
+
+
+                CursorPaging<PlayHistory> recentlyPlayed = await SpotifyApi.GetUsersRecentlyPlayedTracksAsync();
+                ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(
+                    lastDevice, string.Empty,
+                    new List<string>() { recentlyPlayed.Items.FirstOrDefault().Track.Uri }, string.Empty, 0);
             }
+            //CrossToastPopUp.Current.ShowToastMessage(x.Error.Message);
         }
     }
 }
