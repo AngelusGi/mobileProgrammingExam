@@ -32,7 +32,7 @@ namespace testSpotify.Views
         {
             browser.Source = _authUtils.ServerUri;
 
-            
+
 
             browser.Navigating += async (object sender, WebNavigatingEventArgs e) =>
             {
@@ -42,6 +42,18 @@ namespace testSpotify.Views
 
                 if (BaseViewModel.SpotifyApi != null)
                 {
+
+
+                    if (!Preferences.Get("AutoLogin", false))
+                    {
+                        if (await DisplayAlert("AutoLogin", "Restare Collegato?", "Sì", "No"))
+                            Preferences.Set("AutoLogin", true);
+                        else
+                            Preferences.Set("AutoLogin", false);
+                    }
+
+
+
                     await App.Current.MainPage.Navigation.PushAsync(new MainPage());
                 }
             };

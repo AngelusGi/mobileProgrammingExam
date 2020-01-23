@@ -8,6 +8,7 @@ using testSpotify.Views;
 using testSpotify.Models;
 using testSpotify.DataBases;
 using System.IO;
+using testSpotify.Views.Spotify;
 
 namespace testSpotify
 {
@@ -15,7 +16,7 @@ namespace testSpotify
     {
         //private const string MongodbPath = @"mongodb://40.68.75.212:27017";
 
-        private const string MongodbPath =
+        private const string MongodbPath = 
             "mongodb://unimol:MongoUnimol2020@40.68.75.212:27017/?authSource=admin&readPreference=primary&ssl=false";
 
         private const string MongodbName = "LyricsfyTest";
@@ -61,9 +62,7 @@ namespace testSpotify
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
-            MainPage = new NavigationPage(new AuthView())
-            {
-            };
+            MainPage = new NavigationPage(new LoginPage());
             //CheckCredentials();
         }
 

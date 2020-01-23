@@ -4,14 +4,15 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:testSpotify.ViewModels"
+             NavigationPage.HasNavigationBar="False"
              BackgroundColor="#111"
              mc:Ignorable="d"
-             x:Class="testSpotify.Views.LyricsPage">
+             x:Class="testSpotify.Views.Spotify.LoginPage">
 
     <ContentPage.BindingContext>
-        <vm:LyricsPageViewModel/>
+        <vm:LoginViewModel/>
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#00CD00</Color>
@@ -22,18 +23,22 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" VerticalOptions="Start">
-            <Label TextColor="{StaticResource LightTextColor}"
-                   Text="{Binding AlbumName, FallbackValue=AlbumName}" HorizontalOptions="Center"/>
-            <Image Source="{Binding AlbumImage}" HorizontalOptions="Center"/>
-            <Label TextColor="{StaticResource LightTextColor}" 
-                   Text="{Binding ArtistName, FallbackValue=ArtistName}"/>
-            <Label TextColor="{StaticResource LightTextColor}" 
-                   Text="{Binding TrackName, FallbackValue=TrackName}"/>
-            <ScrollView>
-            <Label TextColor="{StaticResource LightTextColor}" 
-                   Text="{Binding Lyrics, FallbackValue=Lyrics}"/>
-            </ScrollView>
-        </StackLayout>
+        <Grid HorizontalOptions="CenterAndExpand"
+              VerticalOptions="CenterAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Button Text="Spotify login"
+                    Grid.Row="0"
+                    BackgroundColor="#111"
+                    TextColor="{StaticResource LightTextColor}"
+                    Command="{Binding LoginCommand}"/>
+            <Button Text="Continue"
+                    Grid.Row="1"
+                    BackgroundColor="#111"
+                    TextColor="{StaticResource LightTextColor}"
+                    Command="{Binding ContinueCommand}"/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

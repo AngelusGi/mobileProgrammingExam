@@ -8,11 +8,13 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace testSpotify.Utils
 {
     public class AuthUtils
     {
+        private bool passed = false;
         private Token _lastToken;
         private Token _token;
         private SpotifyWebAPI _api;
@@ -27,14 +29,16 @@ namespace testSpotify.Utils
             _httpClient = new HttpClient();
 
             _auth = new TokenSwapAuth("http://40.68.75.212:80/spotify/index.php", "http://40.68.75.212:80/",
-                Scope.PlaylistReadPrivate | Scope.UserReadRecentlyPlayed | Scope.UserReadPrivate  | Scope.AppRemoteControl | 
+                Scope.PlaylistReadPrivate | Scope.UserReadRecentlyPlayed | Scope.UserReadPrivate | Scope.AppRemoteControl |
                 Scope.UserReadCurrentlyPlaying | Scope.UserReadPlaybackState | Scope.Streaming | Scope.UserModifyPlaybackState)
             {
-                ShowDialog = false
+                ShowDialog = Preferences.Get("AutoLogin", false)
             };
-            _auth.AuthReceived += async (sender, response2) =>
+
+
+            _auth.AuthReceived += async (sender, response) =>
             {
-                _lastToken = await _auth.ExchangeCodeAsync(response2.Code);
+                _lastToken = await _auth.ExchangeCodeAsync(response.Code);
                 _api = new SpotifyWebAPI()
                 {
                     TokenType = _lastToken.TokenType,
@@ -43,6 +47,9 @@ namespace testSpotify.Utils
             };
             _auth.OnAccessTokenExpired += async (sender, e) =>
                 _api.AccessToken = (await _auth.RefreshAuthAsync(_lastToken.RefreshToken)).AccessToken;
+
+
+
             ServerUri = _auth.GetUri();
             _auth.Start();
         }
@@ -89,7 +96,13 @@ namespace testSpotify.Utils
 
             if (_code.Contains("code="))
             {
-                _token = await SetToken(_code);
+                if (!passed)
+                {
+                    passed = true;
+                    _token = await SetToken(_code);
+                }
+
+
 
                 if (_token != null)
                 {

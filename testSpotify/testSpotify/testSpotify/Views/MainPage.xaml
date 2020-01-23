@@ -14,7 +14,7 @@
 
         <NavigationPage Title="Home" Icon="ic_home.png">
             <x:Arguments>
-                <views:ItemsPage Title="Home" 
+                <views:HomePage Title="Home" 
                                  NavigationPage.HasNavigationBar="False" />
             </x:Arguments>
         </NavigationPage>

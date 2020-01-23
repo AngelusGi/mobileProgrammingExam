@@ -10,6 +10,8 @@ namespace testSpotify.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        public static bool Logged { get; set; }
+
         public static SpotifyAPI.Web.SpotifyWebAPI SpotifyApi { get; set; }
 
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();

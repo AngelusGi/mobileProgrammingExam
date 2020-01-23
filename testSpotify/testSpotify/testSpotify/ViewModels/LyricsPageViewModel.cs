@@ -19,6 +19,7 @@ namespace testSpotify.ViewModels
     {
         private MusixMatchApi api;
         private PlaybackContext playback;
+
         private string albumName;
         private string artistName;
         private string trackName;
@@ -71,25 +72,50 @@ namespace testSpotify.ViewModels
         public LyricsPageViewModel()
         {
             api = new MusixMatchApi("5f18a4bfea8c334574b0860a8b638409");
+            if(SpotifyApi != null)
+            {
+                playback = SpotifyApi.GetPlaybackAsync().Result;
+            }
         }
         public async void SetMatcherAsync()
         {
-
-            playback = await SpotifyApi.GetPlaybackAsync();
-
-            if (playback.Item != null)
+            if (Logged)
             {
-                AlbumName = "RIPRODUZIONE DA ALBUM\n" + playback.Item.Album.Name;
-                AlbumImage = playback.Item.Album.Images.FirstOrDefault().Url;
-                TrackName = playback.Item.Name;
-                ArtistName = playback.Item.Artists.FirstOrDefault().Name;
+                
+                playback = await SpotifyApi.GetPlaybackAsync();
+                
 
+                if (playback.Item != null)
+                {
+                    AlbumName = "RIPRODUZIONE DA ALBUM\n" + playback.Item.Album.Name;
+                    AlbumImage = playback.Item.Album.Images.FirstOrDefault().Url;
+                    TrackName = playback.Item.Name;
+                    ArtistName = playback.Item.Artists.FirstOrDefault().Name;
+
+
+                    SetLyrics(playback.Item.Artists.FirstOrDefault().Name, playback.Item.Album.Name, playback.Item.Name);
+
+                    App.Mongo.UpdateMongoDbArtist(playback.Item.Artists.FirstOrDefault().Name, playback.Item.Album.Name, playback.Item.Name, Lyrics);
+                }
+                else
+                {
+                    CrossToastPopUp.Current.ShowToastMessage("Errore durante il download del testo");
+                }
+            }
+            else
+            {
+                CrossToastPopUp.Current.ShowToastMessage("login richiesto per download automatico del testo");
+            }
+        }
+
+            private void SetLyrics(string artistName, string albumName, string trackName)
+            {
                 try
                 {
                     MatcherLyricsGet matcher = new MatcherLyricsGet()
                     {
-                        SongArtist = playback.Item.Artists.FirstOrDefault().Name,
-                        SongTitle = playback.Item.Name
+                        SongArtist = artistName,
+                        SongTitle = trackName
                     };
 
                     api.MatcherLyricsGet(
@@ -111,4 +137,3 @@ namespace testSpotify.ViewModels
             }
         }
     }
-}
