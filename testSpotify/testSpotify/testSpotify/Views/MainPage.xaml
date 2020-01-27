@@ -23,6 +23,16 @@
             </x:Arguments>
         </NavigationPage>
 
+        <NavigationPage Title="Playe" Icon="ic_action_play.png">
+            <x:Arguments>
+                <views:PlayerPage Title="Player" 
+                                  Icon ="ic_action_play.png"
+                                  xf:BottomBarPageExtensions.TabColor="Black"
+                                  NavigationPage.HasNavigationBar="False"
+                    />
+            </x:Arguments>
+        </NavigationPage>
+
         <NavigationPage Title="Lyrics" Icon="ic_lyrics.png">
             <x:Arguments >
                 <views:LyricsPage Title="Lyrics" 

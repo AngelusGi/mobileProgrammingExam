@@ -30,6 +30,9 @@ namespace testSpotify.ViewModels
         private string _res;
 
         public ICommand AddCommand { get; set; }
+        public ICommand ForwardCommand { get; set; }
+        public ICommand RewindCommand { get; set; }
+        public ICommand ResumeCommand { get; set; }
 
         public string AlbumImage
         {
@@ -76,12 +79,67 @@ namespace testSpotify.ViewModels
         public LyricsPageViewModel()
         {
             AddCommand = new Command(() => AddToFavorites());
+            ForwardCommand = new Command(() => Forward());
+            RewindCommand = new Command(() => Rewind());
+            ResumeCommand = new Command(() => Resume());
             api = new MusixMatchApi("5f18a4bfea8c334574b0860a8b638409");
+        }
+
+        private void Resume()
+        {
+            avaiability(async () =>
+            {
+                playback = await SpotifyApi.GetPlaybackAsync();
+
+                if (playback.Context != null || playback.Item != null)
+                {
+                    if (playback.IsPlaying)
+                    {
+                        ErrorResponse x = await SpotifyApi.PausePlaybackAsync();
+                    }
+                    else
+                    {
+                        ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(playback.Device.Id, string.Empty,
+                            new List<string>() { playback.Item.Uri }, "", playback.ProgressMs);
+                    }
+                }
+            });
+
+
+
+        }
+
+        private void Rewind()
+        {
+            avaiability(async () =>
+            {
+                playback = await SpotifyApi.GetPlaybackAsync();
+
+                if (playback.Context != null || playback.Item != null)
+                {
+                    ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(playback.Device.Id, string.Empty,
+                        new List<string>() { playback.Item.Uri }, "", playback.ProgressMs - 10000);
+                }
+            });
+        }
+
+        private void Forward()
+        {
+            avaiability(async () =>
+            {
+                playback = await SpotifyApi.GetPlaybackAsync();
+
+                if (playback.Context != null || playback.Item != null)
+                {
+                    ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(playback.Device.Id, string.Empty,
+                        new List<string>() { playback.Item.Uri }, "", playback.ProgressMs + 10000);
+                }
+            });
         }
 
         private void AddToFavorites()
         {
-            if(playback.Item != null)
+            if (playback.Item != null)
             {
                 App.Database.SaveArtistAsync(new LocalArtistModel()
                 {
@@ -99,38 +157,19 @@ namespace testSpotify.ViewModels
             }
         }
 
-        public async void SetMatcherAsync()
+        public void SetMatcherAsync()
         {
-            if (SpotifyApi != null)
-            {
-                playback = await SpotifyApi.GetPlaybackAsync();
-
-                if (Logged)
-                {
-
-                    if (playback.Item != null || playback.Item.Name != (await SpotifyApi.GetPlaybackAsync()).Item.Name)
-                    {
-                        UpdateUI();
-                    }
-                    else
-                    {
-                        CrossToastPopUp.Current.ShowToastMessage("Errore durante il download del testo");
-                    }
-                }
-                else
-                {
-                    //aggiornare la pagina dal database locale
-                    CrossToastPopUp.Current.ShowToastMessage("login richiesto per download automatico del testo");
-                }
-            }
-            else
-            {
-                CrossToastPopUp.Current.ShowToastMessage("login richiesto per download automatico del testo");
-            }
+            avaiability(() => UpdateUI());
         }
 
-
-
+        public void LoadLyrics(LocalArtistModel localArtistModel)
+        {
+            this.ArtistName = localArtistModel.ArtistName;
+            this.AlbumName = localArtistModel.AlbumName;
+            this.AlbumImage = localArtistModel.AlbumImage;
+            this.trackName = localArtistModel.TrackName;
+            this.Lyrics = localArtistModel.Lyrics;
+        }
         private void SetLyrics(string artistName, string albumName, string trackName)
         {
             try
@@ -173,13 +212,35 @@ namespace testSpotify.ViewModels
             App.Mongo.UpdateMongoDbArtist(playback.Item.Artists.FirstOrDefault().Name, playback.Item.Album.Name, playback.Item.Name, Lyrics);
         }
 
-        public void LoadLyrics(LocalArtistModel localArtistModel)
+        private async void avaiability(Action action)
         {
-            this.ArtistName = localArtistModel.ArtistName;
-            this.AlbumName = localArtistModel.AlbumName;
-            this.AlbumImage = localArtistModel.AlbumImage;
-            this.trackName = localArtistModel.TrackName;
-            this.Lyrics = localArtistModel.Lyrics;
+            if (SpotifyApi != null)
+            {
+                playback = await SpotifyApi.GetPlaybackAsync();
+
+                if (Logged)
+                {
+
+                    if (playback.Item != null || playback.Item.Name != (await SpotifyApi.GetPlaybackAsync()).Item.Name)
+                    {
+                        action();
+                    }
+                    else
+                    {
+                        CrossToastPopUp.Current.ShowToastMessage("Errore durante il download del testo");
+                    }
+                }
+                else
+                {
+                    //aggiornare la pagina dal database locale
+                    CrossToastPopUp.Current.ShowToastMessage("login richiesto per download automatico del testo");
+                }
+            }
+            else
+            {
+                CrossToastPopUp.Current.ShowToastMessage("login richiesto per download automatico del testo");
+            }
+
         }
     }
 }
