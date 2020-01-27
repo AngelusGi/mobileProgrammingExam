@@ -15,6 +15,7 @@ namespace testSpotify.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AuthView : ContentPage
     {
+        private bool check = false;
         private string _absoluteUrl;
         private AuthUtils _authUtils;
 
@@ -40,21 +41,10 @@ namespace testSpotify.Views
 
                 BaseViewModel.SpotifyApi = await _authUtils.GetApi(_absoluteUrl);
 
-                if (BaseViewModel.SpotifyApi != null)
+                if (BaseViewModel.SpotifyApi != null && !check)
                 {
-
-
-                    if (!Preferences.Get("AutoLogin", false))
-                    {
-                        if (await DisplayAlert("AutoLogin", "Restare Collegato?", "Sì", "No"))
-                            Preferences.Set("AutoLogin", true);
-                        else
-                            Preferences.Set("AutoLogin", false);
-                    }
-
-
-
-                    await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                   check = true;
+                   App.Current.MainPage  = new NavigationPage( new MainPage());
                 }
             };
             //auth.OpenBrowser();

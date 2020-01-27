@@ -8,34 +8,18 @@
             mc:Ignorable="d"
             xmlns:views="clr-namespace:testSpotify.Views"
             NavigationPage.HasNavigationBar="False"
-    x:Class="testSpotify.Views.MainPage">
+            x:Class="testSpotify.Views.MainPage"
+            x:Name="BBPage"
+            x:FieldModifier="public">
 
     <xf:BottomBarPage.Children>
 
         <NavigationPage Title="Home" Icon="ic_home.png">
             <x:Arguments>
                 <views:HomePage Title="Home" 
+                                 Icon="ic_home.png"
+                                 xf:BottomBarPageExtensions.TabColor="Black"
                                  NavigationPage.HasNavigationBar="False" />
-            </x:Arguments>
-        </NavigationPage>
-
-        <NavigationPage Title="Cerca" Icon="ic_search.png">
-            <x:Arguments >
-                <views:AboutPage Title="Cerca" 
-                                 Icon="ic_search.png"
-                                 xf:BottomBarPageExtensions.TabColor="Black" 
-                                 NavigationPage.HasNavigationBar="False"
-                     />
-            </x:Arguments>
-        </NavigationPage>
-
-        <NavigationPage Title="libreria" Icon="ic_library.png">
-            <x:Arguments >
-                <ContentPage Title="La tua libreria" 
-                             Icon="ic_library.png"
-                             xf:BottomBarPageExtensions.TabColor="Black" 
-                             NavigationPage.HasNavigationBar="False"
-                 />
             </x:Arguments>
         </NavigationPage>
 
@@ -43,7 +27,7 @@
             <x:Arguments >
                 <views:LyricsPage Title="Lyrics" 
                                  Icon="ic_lyrics.png"
-                                 xf:BottomBarPageExtensions.TabColor="Black" 
+                                 xf:BottomBarPageExtensions.TabColor="Black"
                                  NavigationPage.HasNavigationBar="False"
                      />
             </x:Arguments>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using testSpotify.Views;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace testSpotify.ViewModels
@@ -21,13 +22,13 @@ namespace testSpotify.ViewModels
         private async void ContinueCall()
         {
             Logged = false;
-            App.Current.MainPage = new NavigationPage(new MainPage());
+            await App.Current.MainPage.Navigation.PushModalAsync(new MainPage());
         }
 
         private async void LoginCall()
         {
             Logged = true;
-            App.Current.MainPage = new NavigationPage(new AuthView());
+            await App.Current.MainPage.Navigation.PushModalAsync(new AuthView());
         }
     }
 }

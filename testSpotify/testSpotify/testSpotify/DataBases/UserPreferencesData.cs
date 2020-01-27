@@ -47,5 +47,10 @@ namespace testSpotify.DataBases
         {
             return _database.DeleteAsync(artistModel);
         }
+
+        public async void DropDatabase()
+        {
+            await _database.DropTableAsync<LocalArtistModel>();
+        }
     }
 }

@@ -27,12 +27,11 @@ namespace testSpotify.Utils
         public AuthUtils()
         {
             _httpClient = new HttpClient();
-
             _auth = new TokenSwapAuth("http://40.68.75.212:80/spotify/index.php", "http://40.68.75.212:80/",
                 Scope.PlaylistReadPrivate | Scope.UserReadRecentlyPlayed | Scope.UserReadPrivate | Scope.AppRemoteControl |
                 Scope.UserReadCurrentlyPlaying | Scope.UserReadPlaybackState | Scope.Streaming | Scope.UserModifyPlaybackState)
             {
-                ShowDialog = Preferences.Get("AutoLogin", false)
+                ShowDialog = !Preferences.Get("AutoLogin", false)
             };
 
 

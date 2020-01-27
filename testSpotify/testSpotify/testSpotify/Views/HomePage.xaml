@@ -14,18 +14,36 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <StackLayout>
-            <ListView ItemsSource="{Binding Artists, FallbackValue=Artists}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <ImageButton Grid.Row="1"
+                HorizontalOptions="EndAndExpand"
+                Margin="0,0,15,0"
+                HeightRequest="30"
+                WidthRequest="30"
+                BackgroundColor="#111"
+                Command="{Binding SettingsCommand}"
+                Source="ic_settings.png"/>
+
+            <ListView Grid.Row="2"
+                ItemTapped="ListView_ItemTapped"
+                ItemsSource="{Binding Artists, FallbackValue=Artists, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate >
-                        <ImageCell Text="{Binding ArtistName, FallbackValue=ArtistName}"
-                                   Detail="Numero di album"
+                        <ImageCell ImageSource="{Binding AlbumImage}"
+                                   Text="{Binding ArtistName, FallbackValue=ArtistName}"
+                                   Detail="{Binding TrackName}"
                                    TextColor="White"
                                    DetailColor="PapayaWhip"
                             />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

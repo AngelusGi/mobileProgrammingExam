@@ -3,17 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:testSpotify.ViewModels"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#111"
              x:Class="testSpotify.Views.Settings">
+    <ContentPage.BindingContext>
+        <vm:SettingsViewModel/>
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
 
-            <!--disconnessione bottone-->
-            <Button Text="Disconnetti utente"
-            ></Button>
-        </StackLayout>
+            <Label Grid.Row="1" Grid.Column="1"
+                   TextColor="White"
+                   HorizontalOptions="EndAndExpand"
+                   Text="Resta Collegato"/>
+            <CheckBox Grid.Row="1" Grid.Column="2"
+                      Color="White"
+                      HorizontalOptions="Center"
+                      BackgroundColor="#111"
+                      Margin="0,-5,0,0"
+                      IsChecked="{Binding RestaCollegato}"/>
+
+            <Button Grid.Row="4" Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Command="{Binding LoginButtonCommand}"
+                    Text="{Binding LoginButtonText, FallbackValue=loginbutton}"
+                    HorizontalOptions="Center"
+                    BackgroundColor="#111"
+                    TextColor="White"
+                    BorderColor="White"
+                    BorderWidth="1"
+                    CornerRadius="20"/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

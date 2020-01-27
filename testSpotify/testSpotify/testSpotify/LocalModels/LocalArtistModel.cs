@@ -12,5 +12,6 @@ namespace testSpotify.LocalModels
         public string AlbumName { get; set; }
         public string TrackName { get; set; }
         public string Lyrics { get; set; }
+        public string AlbumImage { get; set; }
     }
 }
