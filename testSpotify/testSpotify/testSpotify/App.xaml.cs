@@ -4,6 +4,7 @@ using testSpotify.DataBases;
 using testSpotify.Services;
 using testSpotify.Views;
 using testSpotify.Views.Spotify;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace testSpotify
@@ -29,18 +30,21 @@ namespace testSpotify
         public App()
         {
             InitializeComponent();
-            DependencyService.Register<MockDataStore>();
+            //DependencyService.Register<MockDataStore>();
             MainPage = new NavigationPage(new LoginPage());       
         }
 
 
         protected override void OnStart()
         {
-            
+            //Probabile Modo di gestire l'autologin
+            //if (!Preferences.Get("AutoLogin", false))
+            //    App.Current.MainPage = new NavigationPage(new AuthView());
         }
 
         protected override void OnSleep()
         {
+
         }
 
         protected override void OnResume()

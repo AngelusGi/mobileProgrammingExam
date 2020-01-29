@@ -14,20 +14,9 @@ namespace testSpotify.Views
     [DesignTimeVisible(false)]
     public partial class MainPage : BottomBarPage
     {
-        private MainViewModel vm;
         public MainPage()
         {
             InitializeComponent();
-            this.Appearing += check;
-        }
-
-        private void check(object sender, EventArgs e)
-        {
-            List<Page> li = App.Current.MainPage.Navigation.NavigationStack.ToList();
-            for(int i = li.Count-2; i >= 0; --i)
-            {
-                App.Current.MainPage.Navigation.RemovePage(li.ElementAt(i));
-            }
         }
     }
 }

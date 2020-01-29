@@ -59,5 +59,6 @@ namespace testSpotify.ViewModels
         }
 
         #endregion
+
     }
 }

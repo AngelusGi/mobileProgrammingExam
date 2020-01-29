@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using testSpotify.Views;
@@ -19,10 +20,10 @@ namespace testSpotify.ViewModels
             ContinueCommand = new Command(() => ContinueCall());
         }
 
-        private async void ContinueCall()
+        private void ContinueCall()
         {
             Logged = false;
-            await App.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+            App.Current.MainPage = new MainPage();
         }
 
         private async void LoginCall()

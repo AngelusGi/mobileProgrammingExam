@@ -40,6 +40,7 @@ namespace testSpotify.ViewModels
         public SettingsViewModel()
         {
             RestaCollegato = Preferences.Get("AutoLogin", false);
+
             if (Logged)
                 LoginButtonText = "Log-out";
             else

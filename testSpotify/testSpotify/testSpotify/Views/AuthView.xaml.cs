@@ -44,7 +44,7 @@ namespace testSpotify.Views
                 if (BaseViewModel.SpotifyApi != null && !check)
                 {
                    check = true;
-                   App.Current.MainPage  = new NavigationPage( new MainPage());
+                   App.Current.MainPage  = new MainPage();
                 }
             };
             //auth.OpenBrowser();

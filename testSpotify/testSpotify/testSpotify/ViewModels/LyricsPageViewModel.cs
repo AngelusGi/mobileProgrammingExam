@@ -216,29 +216,38 @@ namespace testSpotify.ViewModels
         {
             if (SpotifyApi != null)
             {
-                playback = await SpotifyApi.GetPlaybackAsync();
-
-                if (Logged)
+                if ((await SpotifyApi.GetDevicesAsync()).Devices.Count != 0)
                 {
 
-                    if (playback.Item != null || playback.Item.Name != (await SpotifyApi.GetPlaybackAsync()).Item.Name)
+                    playback = await SpotifyApi.GetPlaybackAsync();
+
+                    if (Logged)
                     {
-                        action();
+
+                        if (playback.Item != null || playback.Item.Name != (await SpotifyApi.GetPlaybackAsync()).Item.Name)
+                        {
+                            action();
+                        }
+                        else
+                        {
+                            CrossToastPopUp.Current.ShowToastMessage("Errore durante il download del testo");
+                        }
                     }
                     else
                     {
-                        CrossToastPopUp.Current.ShowToastMessage("Errore durante il download del testo");
+                        //aggiornare la pagina dal database locale
+                        CrossToastPopUp.Current.ShowToastMessage("login richiesto");
                     }
                 }
                 else
                 {
-                    //aggiornare la pagina dal database locale
-                    CrossToastPopUp.Current.ShowToastMessage("login richiesto per download automatico del testo");
+                    CrossToastPopUp.Current.ShowToastMessage("Accedi a spotify da uno dei tuoi dispositivi!");
                 }
+
             }
             else
             {
-                CrossToastPopUp.Current.ShowToastMessage("login richiesto per download automatico del testo");
+                CrossToastPopUp.Current.ShowToastMessage("Login Richiesto");
             }
 
         }

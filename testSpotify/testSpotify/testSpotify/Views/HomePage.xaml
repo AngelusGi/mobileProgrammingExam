@@ -29,7 +29,7 @@
                 BackgroundColor="#111"
                 Command="{Binding SettingsCommand}"
                 Source="ic_settings.png"/>
-
+        <!-- Sostituire la listview con la collectionview -->
             <ListView Grid.Row="2"
                 ItemTapped="ListView_ItemTapped"
                 ItemsSource="{Binding Artists, FallbackValue=Artists, Mode=TwoWay}">

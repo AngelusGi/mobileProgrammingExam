@@ -18,23 +18,18 @@ namespace testSpotify.Views
             this.Appearing += UpdateUI;
         }
 
+        //Aggiungere al db sql lite l'update ed il controllo se un elemento esiste già
+        //Aggiungere al db L'eliminazione di un elemento dal db
+        
+
         private void UpdateUI(object sender, EventArgs e)
         {
-            check();
             BindingContext.GetType().GetMethod("UpdateUI").Invoke(BindingContext as HomePageViewModel, null);
         }
 
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            DisplayAlert("", (e.Item as LocalModels.LocalArtistModel).Lyrics, "ok");
-        }
-        private void check()
-        {
-            List<Page> li = App.Current.MainPage.Navigation.NavigationStack.ToList();
-            for (int i = li.Count - 2; i >= 0; --i)
-            {
-                App.Current.MainPage.Navigation.RemovePage(li.ElementAt(i));
-            }
+            DisplayAlert((e.Item as LocalModels.LocalArtistModel).TrackName, (e.Item as LocalModels.LocalArtistModel).Lyrics, "OK");
         }
     }
 }

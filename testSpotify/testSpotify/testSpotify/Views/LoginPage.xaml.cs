@@ -15,15 +15,12 @@ namespace testSpotify.Views.Spotify
         public LoginPage()
         {
             InitializeComponent();
-            this.Appearing += check;
+            //this.Appearing += check;
         }
-        private void check(object sender, EventArgs e)
+        private async void check(object sender, EventArgs e)
         {
-            List<Page> li = App.Current.MainPage.Navigation.NavigationStack.ToList();
-            for (int i = li.Count - 2; i >= 0; --i)
-            {
-                App.Current.MainPage.Navigation.RemovePage(li.ElementAt(i));
-            }
+            App.Current.MainPage.Navigation.InsertPageBefore(this, App.Current.MainPage.Navigation.NavigationStack.First());
+            await App.Current.MainPage.Navigation.PopToRootAsync();
         }
     }
 }
