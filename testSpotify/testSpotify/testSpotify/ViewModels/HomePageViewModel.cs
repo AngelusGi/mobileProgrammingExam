@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using testSpotify.LocalModels;
@@ -11,21 +12,25 @@ namespace testSpotify.ViewModels
 {
     class HomePageViewModel : BaseViewModel
     {
-        private List<LocalArtistModel> artists;
+        private ObservableCollection<LocalArtistModel> artists;
 
-        public ICommand SettingsCommand{ get; set; }
-
-        public List<LocalArtistModel> Artists
+        public ICommand SettingsCommand { get; set; }
+        public ICommand RemoveCommand
         {
-            get { return artists; }
-            set
+            get
             {
-                artists = value; OnPropertyChanged();
+                return new Command<LocalArtistModel>(async artist =>
+                {
+                    await App.Database.DeleteArtistAsync(artist);
+                });
             }
         }
 
+        public ObservableCollection<LocalArtistModel> Artists { get; set; }
+
         public HomePageViewModel()
         {
+            Artists = new ObservableCollection<LocalArtistModel>();
             SettingsCommand = new Command(() => OpenSettings());
             UpdateUI();
         }
@@ -37,8 +42,13 @@ namespace testSpotify.ViewModels
 
         public async void UpdateUI()
         {
-            Artists = await App.Database.GetArtistsAsync();
+            List<LocalArtistModel> li = await App.Database.GetArtistsAsync();
+            Artists.Clear();
+            if (li.Count != 0)
+            {
+                li.ForEach(temp => Artists.Add(temp));
+            }
         }
-        
+
     }
 }

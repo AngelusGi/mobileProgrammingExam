@@ -139,8 +139,9 @@ namespace testSpotify.ViewModels
 
         private void AddToFavorites()
         {
-            if (playback.Item != null)
+            avaiability(() =>
             {
+
                 App.Database.SaveArtistAsync(new LocalArtistModel()
                 {
                     ArtistName = this.ArtistName,
@@ -150,11 +151,8 @@ namespace testSpotify.ViewModels
                     Lyrics = this.Lyrics
                 });
                 CrossToastPopUp.Current.ShowToastMessage("Aggiunto ai preferiti!");
-            }
-            else
-            {
-                //Non lo puoi fare se non stai ascoltando nulla oppure se il testo lo hai preso dal tuo database
-            }
+
+            });
         }
 
         public void SetMatcherAsync()

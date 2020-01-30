@@ -20,7 +20,7 @@ namespace testSpotify.Views
 
         //Aggiungere al db sql lite l'update ed il controllo se un elemento esiste già
         //Aggiungere al db L'eliminazione di un elemento dal db
-        
+
 
         private void UpdateUI(object sender, EventArgs e)
         {
@@ -30,6 +30,15 @@ namespace testSpotify.Views
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             DisplayAlert((e.Item as LocalModels.LocalArtistModel).TrackName, (e.Item as LocalModels.LocalArtistModel).Lyrics, "OK");
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            var artist = button?.BindingContext as LocalModels.LocalArtistModel;
+            var vm = BindingContext as HomePageViewModel;
+            vm?.RemoveCommand.Execute(artist);
+            BindingContext.GetType().GetMethod("UpdateUI").Invoke(BindingContext as HomePageViewModel, null);
         }
     }
 }

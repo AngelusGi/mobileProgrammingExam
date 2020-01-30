@@ -32,15 +32,21 @@ namespace testSpotify.DataBases
 
         public Task<int> SaveArtistAsync(LocalArtistModel artistModel)
         {
-            //if(artistModel.ID != 0)
-            //{
-            //    return _database.UpdateAsync(artistModel);
-            //}
-            //else
-            //{
-            //    return _database.InsertAsync(artistModel);
-            //}
-            return artistModel.ID != 0 ? _database.UpdateAsync(artistModel) : _database.InsertAsync(artistModel);
+            return Update(artistModel) ? _database.UpdateAsync(artistModel) : _database.InsertAsync(artistModel);
+        }
+
+        private bool Update(LocalArtistModel artist)
+        {
+            List<LocalArtistModel> li = GetArtistsAsync().Result;
+            bool found = false;
+
+            li.ForEach(t =>
+            {
+                if (artist.TrackName.Equals(t.TrackName) && artist.ArtistName.Equals(t.ArtistName))
+                    found = true;
+            });
+
+            return found;
         }
 
         public Task<int> DeleteArtistAsync(LocalArtistModel artistModel)
