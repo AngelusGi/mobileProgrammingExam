@@ -108,12 +108,10 @@ namespace testSpotify.Services
                 else
                 {
                     InserisciArtista(artistName, albumName, trackName, lyrics);
-                    //Achtung();
                 }
             }
             catch (InvalidOperationException e)
             {
-                //InserisciArtista();
                 CrossToastPopUp.Current.ShowToastMessage("Error : " + e.Message);
             }
             return null;
@@ -144,7 +142,6 @@ namespace testSpotify.Services
             {
                 if (artistcollection.Albums[i].AlbumName == albumName)
                 {
-                    //MessageBox.Show("Album Trovato : " + artistcollection.Albums[i].AlbumName);
                     AlbumPos = i;
                     break;
                 }
@@ -153,8 +150,6 @@ namespace testSpotify.Services
             if (AlbumPos == -1)
             {
                 UpdateResult updateResult = collection.UpdateOne(ArtistFilter, UpdateAlbum, new UpdateOptions { IsUpsert = true });
-                //Achtung();
-                //MessageBox.Show("Album Inserito");
             }
             else
             {
@@ -177,7 +172,6 @@ namespace testSpotify.Services
             {
                 if (artistcollection.Albums[albumPos].Tracks[i].TrackName == trackName)
                 {
-                    //MessageBox.Show("Traccia Trovata : " + artistcollection.Albums[albumPos].Tracks[i].TrackName);
                     TrackPos = i;
                     break;
                 }
@@ -188,9 +182,6 @@ namespace testSpotify.Services
                 artistcollection.Albums[albumPos].Tracks.Add(new TrackModel { TrackName = trackName, Lyrics = lyrics });
 
                 ReplaceOneResult ReplaceResult = collection.ReplaceOne(artistFilter, artistcollection, new ReplaceOptions { IsUpsert = true });
-                //Achtung();
-                //MessageBox.Show("Traccia Aggiunta");
-
             }
             else
             {
@@ -198,25 +189,9 @@ namespace testSpotify.Services
                 {
                     SetLyrics(artistcollection.ArtistName, artistcollection.Albums[albumPos].Tracks[TrackPos].TrackName);
 
-                    //var UpdateAlbum = Builders<ArtistModel>.Update.Push("Albums",
-                    //    new AlbumModel
-                    //    {
-                    //        AlbumName = artistcollection.Albums[albumPos].AlbumName,
-                    //        Tracks = new List<TrackModel>
-                    //        {
-                    //            new TrackModel
-                    //            {
-                    //                TrackName = trackName,
-                    //                Lyrics =  tmpLyrics
-                    //            }
-                    //        }
-                    //    });
-                    
                     artistcollection.Albums[albumPos].Tracks.Add(new TrackModel { TrackName = trackName, Lyrics = lyrics });
-
-                    //UpdateResult updateResult = collection.UpdateOne(artistFilter, UpdateAlbum, new UpdateOptions { IsUpsert = true });
                     ReplaceOneResult updateres = collection.ReplaceOne(artistFilter, artistcollection, new ReplaceOptions { IsUpsert = true });
-                    
+
                     return lyrics;
                 }
                 else
@@ -277,7 +252,6 @@ namespace testSpotify.Services
                     result =>
                     {
                         tmpLyrics = result.LyricsBody;
-                        //App.Mongo.UpdateMongoDbArtist(playback.Item.Artists.FirstOrDefault().Name, playback.Item.Album.Name, playback.Item.Name, result.LyricsBody);
                     },
                     error => { _res = error.FirstOrDefault().ToString(); });
             }

@@ -21,17 +21,24 @@ namespace testSpotify.ViewModels
 {
     public class LyricsPageViewModel : BaseViewModel
     {
-        private bool _isRefreshing = false;
-        public bool IsRefreshing
-        {
-            get { return _isRefreshing; }
-            set
-            {
-                _isRefreshing = value;
-                OnPropertyChanged(nameof(IsRefreshing));
-            }
-        }
+        private MusixMatchApi api;
+        private PlaybackContext playback;
 
+        private bool _isRefreshing = false;
+
+        private string albumName;
+        private string artistName;
+        private string trackName;
+        private string lyrics;
+        private string albumImage;
+        private string playerImage;
+
+        private string _res;
+
+        public ICommand AddCommand { get; set; }
+        public ICommand ForwardCommand { get; set; }
+        public ICommand RewindCommand { get; set; }
+        public ICommand ResumeCommand { get; set; }
         public ICommand RefreshCommand
         {
             get
@@ -47,27 +54,15 @@ namespace testSpotify.ViewModels
             }
         }
 
-
-
-        private MusixMatchApi api;
-        private PlaybackContext playback;
-
-        private string albumName;
-        private string artistName;
-        private string trackName;
-        private string lyrics;
-        private string albumImage;
-        private string playerImage;
-
-
-
-        private string _res;
-
-        public ICommand AddCommand { get; set; }
-        public ICommand ForwardCommand { get; set; }
-        public ICommand RewindCommand { get; set; }
-        public ICommand ResumeCommand { get; set; }
-
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
         public string AlbumImage
         {
             get { return albumImage; }
