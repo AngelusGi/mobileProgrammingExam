@@ -198,23 +198,24 @@ namespace testSpotify.Services
                 {
                     SetLyrics(artistcollection.ArtistName, artistcollection.Albums[albumPos].Tracks[TrackPos].TrackName);
 
-                    var UpdateAlbum = Builders<ArtistModel>.Update.Push("Albums",
-                        new AlbumModel
-                        {
-                            AlbumName = artistcollection.Albums[albumPos].AlbumName,
-                            Tracks = new List<TrackModel>
-                            {
-                                new TrackModel
-                                {
-                                    TrackName = trackName,
-                                    Lyrics =  tmpLyrics
-                                }
-                            }
-                        });
+                    //var UpdateAlbum = Builders<ArtistModel>.Update.Push("Albums",
+                    //    new AlbumModel
+                    //    {
+                    //        AlbumName = artistcollection.Albums[albumPos].AlbumName,
+                    //        Tracks = new List<TrackModel>
+                    //        {
+                    //            new TrackModel
+                    //            {
+                    //                TrackName = trackName,
+                    //                Lyrics =  tmpLyrics
+                    //            }
+                    //        }
+                    //    });
                     
                     artistcollection.Albums[albumPos].Tracks.Add(new TrackModel { TrackName = trackName, Lyrics = lyrics });
-                    
-                    UpdateResult updateResult = collection.UpdateOne(artistFilter, UpdateAlbum, new UpdateOptions { IsUpsert = true });
+
+                    //UpdateResult updateResult = collection.UpdateOne(artistFilter, UpdateAlbum, new UpdateOptions { IsUpsert = true });
+                    ReplaceOneResult updateres = collection.ReplaceOne(artistFilter, artistcollection, new ReplaceOptions { IsUpsert = true });
                     
                     return lyrics;
                 }
