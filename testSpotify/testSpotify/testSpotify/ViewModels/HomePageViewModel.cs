@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using testSpotify.LocalModels;
 using testSpotify.Models;
@@ -12,7 +13,31 @@ namespace testSpotify.ViewModels
 {
     class HomePageViewModel : BaseViewModel
     {
-        private ObservableCollection<LocalArtistModel> artists;
+        private bool _isRefreshing = false;
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    IsRefreshing = true;
+
+                    await UpdateUI();
+
+                    IsRefreshing = false;
+                });
+            }
+        }
 
         public ICommand SettingsCommand { get; set; }
         public ICommand RemoveCommand
@@ -40,7 +65,7 @@ namespace testSpotify.ViewModels
             await App.Current.MainPage.Navigation.PushModalAsync(new Settings());
         }
 
-        public async void UpdateUI()
+        public async Task UpdateUI()
         {
             List<LocalArtistModel> li = await App.Database.GetArtistsAsync();
             Artists.Clear();

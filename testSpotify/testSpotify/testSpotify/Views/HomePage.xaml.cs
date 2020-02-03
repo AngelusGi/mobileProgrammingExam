@@ -38,7 +38,7 @@ namespace testSpotify.Views
             var artist = button?.BindingContext as LocalModels.LocalArtistModel;
             var vm = BindingContext as HomePageViewModel;
             vm?.RemoveCommand.Execute(artist);
-            BindingContext.GetType().GetMethod("UpdateUI").Invoke(BindingContext as HomePageViewModel, null);
+            vm.UpdateUI();
         }
     }
 }

@@ -14,11 +14,41 @@ using System.Diagnostics;
 using SpotifyAPI.Web;
 using System.Windows.Input;
 using Xamarin.Forms;
+using SpotifyAPI.Web.Enums;
+using System.Threading.Tasks;
 
 namespace testSpotify.ViewModels
 {
     public class LyricsPageViewModel : BaseViewModel
     {
+        private bool _isRefreshing = false;
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    IsRefreshing = true;
+
+                    await UpdateUI();
+
+                    IsRefreshing = false;
+                });
+            }
+        }
+
+
+
         private MusixMatchApi api;
         private PlaybackContext playback;
 
@@ -27,6 +57,10 @@ namespace testSpotify.ViewModels
         private string trackName;
         private string lyrics;
         private string albumImage;
+        private string playerImage;
+
+
+
         private string _res;
 
         public ICommand AddCommand { get; set; }
@@ -75,6 +109,11 @@ namespace testSpotify.ViewModels
                 OnPropertyChanged();
             }
         }
+        public string PlayerImage
+        {
+            get { return playerImage; }
+            set { playerImage = value; OnPropertyChanged(); }
+        }
 
         public LyricsPageViewModel()
         {
@@ -83,8 +122,10 @@ namespace testSpotify.ViewModels
             RewindCommand = new Command(() => Rewind());
             ResumeCommand = new Command(() => Resume());
             api = new MusixMatchApi("5f18a4bfea8c334574b0860a8b638409");
+            PlayerImage = "ic_action_play.png";
         }
 
+        #region PlayerPage
         private void Resume()
         {
             avaiability(async () =>
@@ -95,18 +136,17 @@ namespace testSpotify.ViewModels
                 {
                     if (playback.IsPlaying)
                     {
+                        PlayerImage = "ic_action_play.png";
                         ErrorResponse x = await SpotifyApi.PausePlaybackAsync();
                     }
                     else
                     {
+                        PlayerImage = "ic_action_pause.png";
                         ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(playback.Device.Id, string.Empty,
                             new List<string>() { playback.Item.Uri }, "", playback.ProgressMs);
                     }
                 }
             });
-
-
-
         }
 
         private void Rewind()
@@ -136,6 +176,10 @@ namespace testSpotify.ViewModels
                 }
             });
         }
+        #endregion
+
+
+        #region LyricsPage
 
         private void AddToFavorites()
         {
@@ -159,6 +203,10 @@ namespace testSpotify.ViewModels
         {
             avaiability(() => UpdateUI());
         }
+
+        #endregion
+
+        #region Common
 
         public void LoadLyrics(LocalArtistModel localArtistModel)
         {
@@ -196,7 +244,7 @@ namespace testSpotify.ViewModels
             }
         }
 
-        private async void UpdateUI()
+        private async Task UpdateUI()
         {
             playback = await SpotifyApi.GetPlaybackAsync();
             AlbumName = playback.Item.Album.Name;
@@ -204,6 +252,14 @@ namespace testSpotify.ViewModels
             TrackName = playback.Item.Name;
             ArtistName = playback.Item.Artists.FirstOrDefault().Name;
 
+            if (playback.IsPlaying)
+            {
+                PlayerImage = "ic_action_pause.png";
+            }
+            else
+            {
+                PlayerImage = "ic_action_play.png";
+            }
 
             SetLyrics(playback.Item.Artists.FirstOrDefault().Name, playback.Item.Album.Name, playback.Item.Name);
 
@@ -216,25 +272,29 @@ namespace testSpotify.ViewModels
             {
                 if ((await SpotifyApi.GetDevicesAsync()).Devices.Count != 0)
                 {
-
                     playback = await SpotifyApi.GetPlaybackAsync();
 
-                    if (Logged)
+                    if (playback.CurrentlyPlayingType.Equals(TrackType.Track))
                     {
-
-                        if (playback.Item != null || playback.Item.Name != (await SpotifyApi.GetPlaybackAsync()).Item.Name)
+                        if (Logged)
                         {
-                            action();
+                            if (playback.Item != null || playback.Item.Name != (await SpotifyApi.GetPlaybackAsync()).Item.Name)
+                            {
+                                action();
+                            }
+                            else
+                            {
+                                CrossToastPopUp.Current.ShowToastMessage("Errore durante il download del testo");
+                            }
                         }
                         else
                         {
-                            CrossToastPopUp.Current.ShowToastMessage("Errore durante il download del testo");
+                            CrossToastPopUp.Current.ShowToastMessage("login richiesto");
                         }
                     }
                     else
                     {
-                        //aggiornare la pagina dal database locale
-                        CrossToastPopUp.Current.ShowToastMessage("login richiesto");
+                        CrossToastPopUp.Current.ShowToastMessage("Impossibile scaricare il testo, non è una canzone");
                     }
                 }
                 else
@@ -249,5 +309,7 @@ namespace testSpotify.ViewModels
             }
 
         }
+
+        #endregion
     }
 }

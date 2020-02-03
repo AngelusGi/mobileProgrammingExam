@@ -22,35 +22,39 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center"
+        <RefreshView Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     HorizontalOptions="Center"
                      VerticalOptions="Start">
 
-            <ImageButton 
+            <StackLayout Orientation="Vertical">
+                <ImageButton 
                          HorizontalOptions="End"
                          BackgroundColor="#111"
                          Source="ic_add.png"
                          Command="{Binding AddCommand}"/>
-            <Label 
+                <Label 
                    TextColor="{StaticResource LightTextColor}"
                    Text="{Binding AlbumName, FallbackValue=AlbumName}" 
                    HorizontalOptions="Center"/>
-            <Image 
+                <Image 
                    Source="{Binding AlbumImage}" 
                    HorizontalOptions="Center"/>
-            <Label 
+                <Label 
                    HorizontalOptions="Center"
                    TextColor="{StaticResource LightTextColor}" 
                    Text="{Binding ArtistName, FallbackValue=ArtistName}"/>
-            <Label 
+                <Label 
                    HorizontalOptions="Center"
                    TextColor="{StaticResource LightTextColor}" 
                    Text="{Binding TrackName, FallbackValue=TrackName}"/>
-            <ScrollView 
+                <ScrollView 
                         HorizontalOptions="Center">
-                <Label TextColor="{StaticResource LightTextColor}" 
+                    <Label TextColor="{StaticResource LightTextColor}" 
                    Text="{Binding Lyrics, FallbackValue=Lyrics}"/>
-            </ScrollView>
+                </ScrollView>
 
-        </StackLayout>
+            </StackLayout>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>

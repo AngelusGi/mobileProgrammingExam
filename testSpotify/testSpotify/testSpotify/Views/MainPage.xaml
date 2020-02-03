@@ -6,6 +6,8 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:xf="clr-namespace:BottomBar.XamarinForms;assembly=BottomBar.XamarinForms"
             mc:Ignorable="d"
+            BackgroundColor="#111"
+            BarBackgroundColor="Black"
             xmlns:views="clr-namespace:testSpotify.Views"
             NavigationPage.HasNavigationBar="False"
             x:Class="testSpotify.Views.MainPage"
@@ -18,16 +20,14 @@
             <x:Arguments>
                 <views:HomePage Title="Home" 
                                  Icon="ic_home.png"
-                                 xf:BottomBarPageExtensions.TabColor="Black"
                                  NavigationPage.HasNavigationBar="False" />
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage Title="Playe" Icon="ic_action_play.png">
+        <NavigationPage Title="Player" Icon="ic_play.png">
             <x:Arguments>
                 <views:PlayerPage Title="Player" 
                                   Icon ="ic_action_play.png"
-                                  xf:BottomBarPageExtensions.TabColor="Black"
                                   NavigationPage.HasNavigationBar="False"
                     />
             </x:Arguments>
@@ -37,7 +37,6 @@
             <x:Arguments >
                 <views:LyricsPage Title="Lyrics" 
                                  Icon="ic_lyrics.png"
-                                 xf:BottomBarPageExtensions.TabColor="Black"
                                  NavigationPage.HasNavigationBar="False"
                      />
             </x:Arguments>

@@ -13,39 +13,42 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <Grid Margin="0,0,0,10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="9*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <ScrollView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-                <Label Text="{Binding Lyrics, FallbackValue=Lyrics}"
+        <RefreshView Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <Grid Margin="0,0,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ScrollView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                    <Label Text="{Binding Lyrics, FallbackValue=Lyrics}"
                        TextColor="White"
                        HorizontalOptions="Center"
                    />
-            </ScrollView>
+                </ScrollView>
 
-            <ImageButton Grid.Row="2" Grid.Column="0"
+                <ImageButton Grid.Row="2" Grid.Column="0"
                          Source="ic_rewind.png"
                          BackgroundColor="#111"
                          Command="{Binding RewindCommand}"
                          />
-            <ImageButton Grid.Row="2" Grid.Column="1"
-                         Source="ic_action_play.png"
+                <ImageButton Grid.Row="2" Grid.Column="1"
+                         Source="{Binding PlayerImage}"
                          BackgroundColor="#111"
                          Command="{Binding ResumeCommand}"
                          />
-            <ImageButton Grid.Row="2" Grid.Column="2"
+                <ImageButton Grid.Row="2" Grid.Column="2"
                          Source="ic_forward.png"
                          BackgroundColor="#111"
                          Command="{Binding ForwardCommand}"
                          />
-        </Grid>
+            </Grid>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>

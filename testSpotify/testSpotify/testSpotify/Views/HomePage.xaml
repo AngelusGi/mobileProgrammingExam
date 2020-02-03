@@ -33,6 +33,9 @@
             <!-- Sostituire la listview con la collectionview -->
             <ScrollView Grid.Row="2">
                 <ListView 
+                      IsPullToRefreshEnabled="True"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      IsRefreshing="{Binding IsRefreshing}"
                       ItemTapped="ListView_ItemTapped"
                       SelectionMode="None"
                       HasUnevenRows="True"

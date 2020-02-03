@@ -31,15 +31,13 @@ namespace testSpotify
         {
             InitializeComponent();
             //DependencyService.Register<MockDataStore>();
-            MainPage = new NavigationPage(new LoginPage());       
+            MainPage = new NavigationPage(new AuthView());       
         }
 
 
         protected override void OnStart()
         {
-            //Probabile Modo di gestire l'autologin
-            //if (!Preferences.Get("AutoLogin", false))
-            //    App.Current.MainPage = new NavigationPage(new AuthView());
+            
         }
 
         protected override void OnSleep()
