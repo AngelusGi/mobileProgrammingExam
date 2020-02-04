@@ -1,8 +1,5 @@
-﻿using MongoDB.Bson;
-using SQLite;
-using System;
+﻿using SQLite;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using testSpotify.LocalModels;
 

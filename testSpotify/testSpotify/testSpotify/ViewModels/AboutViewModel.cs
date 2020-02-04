@@ -1,24 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Input;
-using Xamarin.Essentials;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
-using SpotifyAPI.Web;
-using SpotifyAPI.Web.Auth;
-using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
-using Plugin.Toast;
-using MusixMatch_API;
-using MusixMatch_API.APIMethods.Track;
-using MusixMatch_API.ReturnTypes;
-using MusixMatch_API.APIMethods.Artist;
-using System.Net.Http;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-using MusixMatch_API.APIMethods.Matcher;
 
 namespace testSpotify.ViewModels
 {

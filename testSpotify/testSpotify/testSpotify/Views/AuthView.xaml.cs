@@ -1,12 +1,5 @@
-﻿using SpotifyAPI.Web;
-using SpotifyAPI.Web.Auth;
-using SpotifyAPI.Web.Enums;
-using SpotifyAPI.Web.Models;
-using System.Linq;
-using System.Net.Http;
-using testSpotify.Utils;
+﻿using testSpotify.Utils;
 using testSpotify.ViewModels;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

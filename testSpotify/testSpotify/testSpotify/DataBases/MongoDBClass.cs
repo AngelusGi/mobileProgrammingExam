@@ -2,12 +2,8 @@
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
-using Xamarin.Essentials;
-using System.Text;
 using testSpotify.Models;
 using Plugin.Toast;
-using testSpotify.ViewModels;
 using MusixMatch_API;
 using MusixMatch_API.APIMethods.Matcher;
 using System.Linq;

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using testSpotify.Views;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace testSpotify.ViewModels

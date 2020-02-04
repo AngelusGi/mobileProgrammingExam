@@ -1,11 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using System.ComponentModel;
 using BottomBar.XamarinForms;
-using testSpotify.ViewModels;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace testSpotify.Views
 {

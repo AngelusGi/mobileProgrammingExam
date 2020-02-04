@@ -1,17 +1,13 @@
 ﻿using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using testSpotify.Models;
 using testSpotify.LocalModels;
-using testSpotify.Services;
 using Plugin.Toast;
 using MusixMatch_API;
 using SpotifyAPI.Web.Models;
 using MusixMatch_API.APIMethods.Matcher;
 using System.Linq;
 using System.Diagnostics;
-using SpotifyAPI.Web;
 using System.Windows.Input;
 using Xamarin.Forms;
 using SpotifyAPI.Web.Enums;
@@ -137,7 +133,7 @@ namespace testSpotify.ViewModels
                     else
                     {
                         PlayerImage = "ic_action_pause.png";
-                        ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(playback.Device.Id, string.Empty,
+                        ErrorResponse x = await SpotifyApi.ResumePlaybackAsync(playback.Device.Id,string.Empty,
                             new List<string>() { playback.Item.Uri }, "", playback.ProgressMs);
                     }
                 }

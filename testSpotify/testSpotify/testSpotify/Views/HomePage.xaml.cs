@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using testSpotify.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -32,13 +28,13 @@ namespace testSpotify.Views
             DisplayAlert((e.Item as LocalModels.LocalArtistModel).TrackName, (e.Item as LocalModels.LocalArtistModel).Lyrics, "OK");
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
             var button = sender as Button;
             var artist = button?.BindingContext as LocalModels.LocalArtistModel;
             var vm = BindingContext as HomePageViewModel;
             vm?.RemoveCommand.Execute(artist);
-            vm.UpdateUI();
+            await vm.UpdateUI();
         }
     }
 }

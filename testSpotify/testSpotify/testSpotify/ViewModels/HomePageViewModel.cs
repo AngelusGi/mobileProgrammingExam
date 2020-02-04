@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Plugin.Toast;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using testSpotify.LocalModels;
-using testSpotify.Models;
 using testSpotify.Views;
 using Xamarin.Forms;
 
@@ -46,7 +44,11 @@ namespace testSpotify.ViewModels
             {
                 return new Command<LocalArtistModel>(async artist =>
                 {
-                    await App.Database.DeleteArtistAsync(artist);
+                    var error = await App.Database.DeleteArtistAsync(artist);
+                    if(error == null)
+                    {
+                        CrossToastPopUp.Current.ShowToastWarning("Database occupato, riprova più tardi");
+                    }
                 });
             }
         }
