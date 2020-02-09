@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:testSpotify.ViewModels"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#111"
+             mc:Ignorable="d"
+             x:Class="testSpotify.Views.Spotify.LoginPage">
+
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#00CD00</Color>
+            <Color x:Key="Accent">#96d1ff</Color>
+            <Color x:Key="LightTextColor">#DDD</Color>
+            <Color x:Key="DarkTextColor">#333</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid HorizontalOptions="CenterAndExpand"
+              VerticalOptions="CenterAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Button Text="Spotify login"
+                    Grid.Row="0"
+                    BackgroundColor="#111"
+                    TextColor="{StaticResource LightTextColor}"
+                    Command="{Binding LoginCommand}"/>
+            <Button Text="Continue"
+                    Grid.Row="1"
+                    BackgroundColor="#111"
+                    TextColor="{StaticResource LightTextColor}"
+                    Command="{Binding ContinueCommand}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

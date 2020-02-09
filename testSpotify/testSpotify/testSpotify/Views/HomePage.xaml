@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:testSpotify.ViewModels"
+             NavigationPage.HasBackButton="False"
+             BackgroundColor="#111"
+             mc:Ignorable="d"
+             x:Class="testSpotify.Views.HomePage">
+
+    <ContentPage.BindingContext>
+        <vm:HomePageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ImageButton Grid.Row="1"
+                HorizontalOptions="EndAndExpand"
+                Margin="0,0,15,0"
+                HeightRequest="30"
+                WidthRequest="30"
+                BackgroundColor="#111"
+                Command="{Binding SettingsCommand}"
+                Source="ic_settings.png"/>
+
+            <!-- Sostituire la listview con la collectionview -->
+            <ScrollView Grid.Row="2">
+                <ListView 
+                      IsPullToRefreshEnabled="True"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      IsRefreshing="{Binding IsRefreshing}"
+                      ItemTapped="ListView_ItemTapped"
+                      SelectionMode="None"
+                      HasUnevenRows="True"
+                      ItemsSource="{Binding Artists, FallbackValue=Artists}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="7*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Row="0" Grid.RowSpan="2"
+                                       Grid.Column="0"
+                                       Source="{Binding AlbumImage}"/>
+                                    <Label Grid.Row="0" Grid.Column="1"
+                                       TextColor="White"
+                                       Text="{Binding ArtistName}"/>
+                                    <Label Grid.Row="1" Grid.Column="1"
+                                       TextColor="PapayaWhip"
+                                       Text="{Binding TrackName}"/>
+                                    <Button Grid.Row="0" Grid.Column="2"
+                                            Grid.RowSpan="2"
+                                            Text="Elimina"
+                                            BackgroundColor="#111"
+                                            HorizontalOptions="CenterAndExpand"
+                                            VerticalOptions="CenterAndExpand"
+                                            TextColor="IndianRed"
+                                            FontSize="Micro"
+                                            Clicked="Button_Clicked"/>
+                                </Grid>
+                                
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
