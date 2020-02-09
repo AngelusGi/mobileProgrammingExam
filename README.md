@@ -13,9 +13,9 @@ We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and re
 
 ## Tools and platform
 - [doxygen](http://www.doxygen.nl/download.html) - Visual Studio Documentation
-- [MusixMatch_API] (https://github.com/jipjan/MusixMatchAPI) - .NET Api MusixMatch
-- [SpotifyAPI-NET] (https://johnnycrazy.github.io/SpotifyAPI-NET/) - .NET Api Spotify
-- [MongoDB] (https://docs.mongodb.com/ecosystem/drivers/csharp/) - MongoDB C#/.NET Driver
+- [MusixMatch_API](https://github.com/jipjan/MusixMatchAPI) - .NET Api MusixMatch
+- [SpotifyAPI-NET](https://johnnycrazy.github.io/SpotifyAPI-NET/) - .NET Api Spotify
+- [MongoDB](https://docs.mongodb.com/ecosystem/drivers/csharp/) - MongoDB C#/.NET Driver
 
 ## Features in version 1
 - Spotify login
