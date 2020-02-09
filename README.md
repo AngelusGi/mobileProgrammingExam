@@ -16,9 +16,12 @@ We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and re
 - [MusixMatch_API](https://github.com/jipjan/MusixMatchAPI) - .NET Api MusixMatch
 - [SpotifyAPI-NET](https://johnnycrazy.github.io/SpotifyAPI-NET/) - .NET Api Spotify
 - [MongoDB](https://docs.mongodb.com/ecosystem/drivers/csharp/) - MongoDB C#/.NET Driver
+- [spotify-token-swap-php](https://github.com/rollersteaam/spotify-token-swap-php) - Spotify Authorization Code Flow in PHP (OAuth)
+- [SQL-Lite](https://www.nuget.org/packages/sqlite/) - SQL-Lite C#/.NET Driver
+
 
 ## Features in version 1
-- Spotify login
+- Spotify login (OAuth)
 - Music player
 - Read text's song
 
