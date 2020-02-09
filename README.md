@@ -3,21 +3,24 @@ Exam project "Mobile Apps Programming" - Professor Francesco Mercalo (UniMol - U
 <br/>
 
 ## Team
-Angelo Gino Varrati [@angelus_gi](https://github.com/angelus_gi) and Roberto Lucchetti [@Rejrak](https://github.com/Rejrak)
+Angelo Gino Varrati [@angelus_gi] (https://github.com/angelus_gi) and Roberto Lucchetti [@Rejrak] (https://github.com/Rejrak)
 <br/>
 
 ## Description
-We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and read song's text using [SpotifyAPI-NET](https://johnnycrazy.github.io/SpotifyAPI-NET/) and MongoDB.
+We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and read song's text using [SpotifyAPI-NET] (https://johnnycrazy.github.io/SpotifyAPI-NET/) and MongoDB.
 
 <br/>
 
 ## Tools and platform
 - [doxygen](http://www.doxygen.nl/download.html) - Visual Studio Documentation
+- [MusixMatch_API] (https://github.com/jipjan/MusixMatchAPI) - .NET Api MusixMatch
+- [SpotifyAPI-NET] (https://johnnycrazy.github.io/SpotifyAPI-NET/) - .NET Api Spotify
+- [MongoDB] (https://docs.mongodb.com/ecosystem/drivers/csharp/) - MongoDB C#/.NET Driver
 
 ## Features in version 1
 - Spotify login
 - Music player
 - Read text's song
 
-## Features in version 1
+## Features in version 2
 - Download text's song for offline use on SQL Lite
