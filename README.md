@@ -11,7 +11,7 @@ We produced an app using Xamarin.Forms (Android + UWP) to control Spotify and re
 
 <br/>
 
-## Tools and platform
+## Tools and platforms
 - [doxygen](http://www.doxygen.nl/download.html) - Visual Studio Documentation
 - [MusixMatch_API](https://github.com/jipjan/MusixMatchAPI) - .NET Api MusixMatch
 - [SpotifyAPI-NET](https://johnnycrazy.github.io/SpotifyAPI-NET/) - .NET Api Spotify
